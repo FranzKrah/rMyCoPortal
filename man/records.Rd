@@ -67,8 +67,6 @@ records(taxon = "Amanita muscaria", country = "", state = "",
 \item{browserName}{character string specifying the browser to use, recommended: "chrome"}
 
 \item{remoteServerAddr}{default is "localhost}
-
-\item{browser}{default is "chrome"}
 }
 \value{
 x an object of class "\code{mycodist}" with the following components:

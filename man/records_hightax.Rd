@@ -22,8 +22,6 @@ records_hightax(taxon = "Polyporales", verbose = TRUE,
 \item{remoteServerAddr}{default is "localhost}
 
 \item{sleep}{set time to wait till page is loaded, default: 2 (don't go lower than that)}
-
-\item{browser}{default is "chrome"}
 }
 \value{
 x an object of class "\code{mycodist}" with the following components:

@@ -20,5 +20,5 @@
 }}
 
 \seealso{
-\code{"\link[=records-class]{mycodist}"}
+\code{"\link[=mycodist-class]{mycodist}"}
 }

@@ -132,6 +132,7 @@ records <- function(taxon = "Amanita muscaria",
     verbose = FALSE,
     intern = TRUE
   )
+  Sys.sleep(1)
   if(verbose)
     if(is.na(out$cmd.out[2])){
       cat("Port is allocated \n")

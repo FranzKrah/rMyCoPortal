@@ -1,10 +1,11 @@
-#' Plot data overview on map
+#' Plot data heatmap on geographic map
 #'
 #' @param x an object of class "\code{mycodist}", see \link{records}
 #' @param mapdatabase The map database to use in mapping, see \link{plot_distmap}
 #' @param area list with four elements. Currently \code{mapdatabase} does not contain areas such as Europe,
 #' however, this may be manually chosen like this:
 #' area = list(min_long = -10, max_long = 24, min_lat = 14, max_lat = 70)
+#' @param index character string, either "rec" (number of records) or "rich" (number of species)
 #' @import ggplot2 maps
 #' @importFrom Hmisc capitalize
 #' @importFrom dplyr left_join
@@ -16,7 +17,7 @@
 #' @export
 
 
-plot_datamap <- function(x, mapdatabase = "world", area = NULL){
+plot_datamap <- function(x, mapdatabase = "world", area = NULL, index = "rich"){
 
   ipt <- x@records
 
@@ -27,7 +28,23 @@ plot_datamap <- function(x, mapdatabase = "world", area = NULL){
   world_map <- map_data(map = mapdatabase, region=".")
 
   ## Calculate number of records for each country or state
-  ipt <- data.frame(table(ipt[,grep(capitalize(ifelse(mapdatabase == "world", "country", "state")), names(ipt))]))
+
+  if(index == "rich"){
+    ipt <- data.frame(nr.spec = tapply(ipt$spec, ipt$Country, function(x) length(unique(x))))
+    ipt <- data.frame(rownames(ipt), ipt)
+    rownames(ipt) <- NULL
+
+
+    tit <- paste(" Number of species for", x@query$taxon)
+
+  }
+  if(index == "rec"){
+    ipt <- data.frame(table(ipt[,grep(capitalize(ifelse(mapdatabase == "world", "country", "state")),
+                                      names(ipt))]))
+
+    tit <- paste(" Number of records for", x@query$taxon)
+  }
+
   names(ipt) <- c("Destination", "Count")
   ipt$Destination <- as.character(ipt$Destination)
 
@@ -50,7 +67,6 @@ plot_datamap <- function(x, mapdatabase = "world", area = NULL){
   l.scale <- round(range(log10(ipt$Count), na.rm = TRUE))
   l.scale <- seq(l.scale[1], l.scale[2], 1)
 
-  tit <- paste(" Number of records for", x@query$taxon)
   ## Plot
 
 

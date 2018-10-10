@@ -21,15 +21,10 @@ devtools::install_github("FranzKrah/rMyCoPortal")
 
 ```
 
-```{r setup2, include=FALSE, eval=TRUE}
-library(knitr)
-library(rgl)
-knit_hooks$set(webgl = hook_webgl)
-```
-
 ## Docker
 
 Before we start using rMyCoPortal, we need to install docker (https://docs.docker.com/install/). Docker performs  virtualization, also known as "containerization". rMyCoPortal interally uses the R package RSelenium to create a Selenium Server from which the MyCoPortal website is addressed. 
+Docker needs to run before using the rMyCoPortal.
 
 # Download records for *Amanita muscaria*, the fly agaric
 
@@ -51,16 +46,12 @@ head(am.rec@records)
 ## Visualization
 We can now use several plotting methods to visualize the data.
 
-```{r plots, include=TRUE, eval=TRUE, webgl=TRUE,  echo=TRUE}
+```{r plots, include=TRUE, eval=TRUE, echo=TRUE}
 
 x <- am.rec
 
 ## plot_distmap can be used to plot interactive and static distribution maps
 plot_distmap(x = x, mapdatabase = "world") # the default is interactive
-
-```
-
-```{r plots2, include=TRUE, eval=TRUE, echo=TRUE}
 plot_distmap(x = x, mapdatabase = "world", interactive = FALSE) # the default is interactive
 
 ## plot_recordstreemap can be used to visualize relative importance of aspects of the data

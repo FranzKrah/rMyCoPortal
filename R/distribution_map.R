@@ -56,7 +56,8 @@ plot_distmap <- function(x,
     geom_point(data=tomap, aes(lon, lat, color = spec),
                alpha = 0.4, size = 3, position = jitter) +
     labs(x="", y="") + theme_bw(base_size = 14) +
-    ggtitle(paste("Distribution map for", x@query$taxon))
+    ggtitle(paste("Distribution map for", x@query$taxon)) +
+    coord_fixed(1.3)
 
   if(!legend)
     p <- p + theme(legend.position = "none")
@@ -65,6 +66,7 @@ plot_distmap <- function(x,
     p <- p + facet_wrap(~spec)
   }
   plot(p)
+  return(p)
   }
   if(interactive){
     x@records <- x@records[!is.na(x@records$lat), ]

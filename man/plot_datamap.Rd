@@ -2,9 +2,9 @@
 % Please edit documentation in R/data_map.R
 \name{plot_datamap}
 \alias{plot_datamap}
-\title{Plot data overview on map}
+\title{Plot data heatmap on geographic map}
 \usage{
-plot_datamap(x, mapdatabase = "world", area = NULL)
+plot_datamap(x, mapdatabase = "world", area = NULL, index = "rich")
 }
 \arguments{
 \item{x}{an object of class "\code{mycodist}", see \link{records}}
@@ -14,9 +14,11 @@ plot_datamap(x, mapdatabase = "world", area = NULL)
 \item{area}{list with four elements. Currently \code{mapdatabase} does not contain areas such as Europe,
 however, this may be manually chosen like this:
 area = list(min_long = -10, max_long = 24, min_lat = 14, max_lat = 70)}
+
+\item{index}{character string, either "rec" (number of records) or "rich" (number of species)}
 }
 \description{
-Plot data overview on map
+Plot data heatmap on geographic map
 }
 \examples{
 \dontrun{

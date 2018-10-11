@@ -33,16 +33,16 @@ retry_next_page_download <- function(z, remdriver, max_attempts = 5,
   for (j in seq_len(max_attempts)) {
 
     out <- tryCatch(next_page_download(z, remdriver),
-                    message = function(n) {print("FALSE")},
-                    warning = function(w) {print(paste("FALSE"));},
-                    error = function(e) {print(paste("FALSE"));})
+                    message = function(n) {print("Unstable")},
+                    warning = function(w) {print(paste("Unstable"));},
+                    error = function(e) {print(paste("Unstable"));})
 
     if (is.data.frame(out)) {
       return(out)
     }
     if(out == FALSE){
       if (wait_seconds > 0) {
-        message(paste0("Retrying at ", Sys.time() + wait_seconds))
+        message("Retrying")
         Sys.sleep(wait_seconds)
         if(j == 5)
           remdriver$refresh()
@@ -71,16 +71,16 @@ retry_remote_table <- function(remdriver, max_attempts = 5,
   for (j in seq_len(max_attempts)) {
 
     out <- tryCatch(remote_table(remdriver),
-                    message = function(n) {print("FALSE")},
-                    warning = function(w) {print(paste("FALSE"));},
-                    error = function(e) {print(paste("FALSE"));})
+                    message = function(n) {print("Unstable")},
+                    warning = function(w) {print(paste("Unstable"));},
+                    error = function(e) {print(paste("Unstable"));})
 
     if (is.data.frame(out)) {
       return(out)
     }
     if(out == FALSE){
       if (wait_seconds > 0) {
-        message(paste0("Retrying at ", Sys.time() + wait_seconds))
+        message("Retrying")
         Sys.sleep(wait_seconds)
         if(j == floor(max_attempts/2))
           remdriver$refresh()

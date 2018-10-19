@@ -12,3 +12,6 @@ read_mycoportal_csv(path)
 \description{
 Read a downloaded folder
 }
+\author{
+Franz-Sebastian Krah
+}

@@ -18,6 +18,9 @@
 #' 		points in width, height, or both.
 #' @return Map (using \link{ggplot2} package) of points or tiles on a world map.
 #' @import ggplot2 mapview sf sp
+#'
+#' @author Franz-Sebastian Krah
+#'
 #' @examples
 #' \dontrun{
 #' am.dist <- records_ext(taxon = "Amanita muscaria")

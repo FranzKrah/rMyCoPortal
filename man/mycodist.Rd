@@ -7,16 +7,19 @@
 mycodist(nr.records, citation, query, records)
 }
 \arguments{
-\item{nr.records}{numeric of number of records found}
+\item{nr.records}{A numeric giving the number of records retrieved}
 
-\item{citation}{character string with recommended citation}
+\item{citation}{A character string with the recommended citation from the website}
 
-\item{query}{list with user-specified query arguments}
+\item{query}{A list of the user arguments used}
 
-\item{records}{data.frame displaying results from MyCoPortal}
+\item{records}{A data.frame with the query records results}
 }
 \description{
 Create objects of class
   \code{"\link[=mycodist-class]{mycodist}"} from meta data
   and a data.frame derived from \code{\link{records}}.
+}
+\author{
+Franz-Sebastian Krah
 }

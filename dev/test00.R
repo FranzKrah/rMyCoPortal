@@ -1,7 +1,5 @@
 library(rMyCoPortal)
 
-
-
 ## Test for species
 spec.dist <- records(taxon = "Amanita muscaria")
 save(spec.dist, file ="dev/amanita.test.data.rda")

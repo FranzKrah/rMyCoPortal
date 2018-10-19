@@ -1,0 +1,13 @@
+citHeader("To cite the MyCoPortal in a publications use:")
+
+citEntry(entry = "Article",
+author = personList(as.person("A. N. Miller"), as.person("S. T. Bates")),
+         title = "The Mycology Collections Portal (MyCoPortal)",
+         year = 2017,
+         journal = "Cryptogamie Mycologie",
+         volume = "37",
+         pages = "15-36",
+         textVersion = paste("A. N. Miller and S. T. Bates", 
+        "The Mycology Collections Portal (MyCoPortal) (2017)", 
+        "Cryptogamie Mycologie, 37:15-36.")
+         )

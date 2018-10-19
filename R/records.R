@@ -1,5 +1,5 @@
 #' Retrieve records from the MyCoPortal
-#' @param taxon character string specifying the taxon name (e.g., species name, family name or higher taxon)
+#' @param taxon character string specifying the taxon name (e.g., species name, family name or higher taxon). To query higher taxa, e.g. on order level, I recommend using \code{\link{records_hightax}}
 #' @param country character string specifying country, e.g., "USA"
 #' @param state character string specifying state, e.g., "Massachusetts"
 #' @param county character string specifying county, e.g., "Worcester"
@@ -27,17 +27,20 @@
 #' @param screenshot logical, whether screenshot of results should be displayed in Viewer
 #' @param browserName character string specifying the browser to use, recommended: "chrome"
 #'
-#' @return x an object of class "\code{mycodist}" with the following components:
-#' \item{nr.records}{A nuneric of the number of records found}
-#' \item{citation}{A character string with recommended citation}
-#' \item{query}{A list with user-specified query arguments}
-#' \item{records}{data.frame displaying results from MyCoPortal}
+#' @return x an object of class "\code{\link{mycodist}}" with the following components:
+#' \item{nr.records}{A numeric giving the number of records retrieved}
+#' \item{citation}{A character string with the recommended citation from the website}
+#' \item{query}{A list of the user arguments used}
+#' \item{records}{A data.frame with the query records results}
 #'
 #' @details Interface to the web database MyCoPortal. Query records available by various user specifications.
 #' @references \url{http://mycoportal.org/portal/index.php}
+#' @references A. N. Miller and S. T. Bates The Mycology Collections Portal (MyCoPortal) (2017) Cryptogamie Mycologie, 37:15-36.
 #'
 #' @import RSelenium XML httr
 #' @importFrom crayon red
+#'
+#' @author Franz-Sebastian Krah
 #'
 #' @examples
 #' \dontrun{
@@ -47,33 +50,7 @@
 #' recordsmap(am.dist, mapdatabase = "state",legend = FALSE)
 #' }
 #' @export
-#'
-#
-# library("RSelenium")
-# library("XML")
-# library("httr")
-# library("stringr")
-# library("rvest")
-# library("xml2")
-# library("ssh.utils")
-# #
-# taxon = "Amanita muscaria"
-# taxon = "Pleurotus"
-# taxon = "Polyporales"
-# country = ""; state = ""; county = ""; locality = ""; elevation_from = ""; elevation_to = ""; host = "";
-# taxon_type = 4;
-# north_lat = ""; south_lat = ""; west_lon = ""; east_lon = "";
-# point_lat = ""; point_lon = ""; radius = "";
-# collector = ""; collector_num = ""; coll_date1 = ""; coll_date2 = "";
-# syns = TRUE; verbose = TRUE
-# screenshot <- TRUE
-# port = 4445L
-# browserName = "chrome"
-# remoteServerAddr = "localhost"
-# radius <- "50"
-# point_lat <- "42"
-# point_lon <- "-72"
-# collection <- "all"
+
 
 records <- function(taxon = "Amanita muscaria",
            country = "",
@@ -108,6 +85,8 @@ records <- function(taxon = "Amanita muscaria",
     stop("To retrieve datasets for higher taxonomy please use function *records_hightax*")
   }
 
+  if(missing(taxon))
+    stop("At least a species name has to be specified")
 
 
   # Initialize session ------------------------------------------------------

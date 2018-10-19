@@ -1,18 +1,26 @@
-#' Quickview on images of a record
+#' Retrieve images and meta-data for a specific record (specimen)
 #' @param Symbiota.ID, as found in output of \code{records}
 #' @param verbose logical
 #'
-#' @import magick
+#' @import magick rvest
+#'
+#' @author Franz-Sebastian Krah
 #'
 #' @examples
 #' \dontrun{
-#' pic <- quickview(4531213)
-#' print(pic) # in Viewer (RStudio)
-#' plot(pic) # as plot
+#' # use function records to download records; then use one of the IDs:
+#' pic <- details(4531213)
+#' # show screenshot of details for this specimen
+#' print(pic$screenshot) # in Viewer (RStudio)
+#' plot(pic$screenshot) # as plot
+#' # Look at one of the images in more detail
+#' print(image_read(pic$urls[2])) # not all links are working in all instances
+#' # Look at meta data; this specimen was collected in 2012 in Washington
+#' pic$meta
 #' }
 #' @export
 
-quickview <- function(Symbiota.ID = 4531213, verbose = TRUE){
+details <- function(Symbiota.ID = 4531213, verbose = TRUE){
 
   out <- ssh.utils::run.remote(
     cmd = "docker pull selenium/standalone-chrome",
@@ -61,6 +69,34 @@ quickview <- function(Symbiota.ID = 4531213, verbose = TRUE){
   files <- files[-grep("rs-graphics", files)]
   unlink(files, force = TRUE, recursive = TRUE)
 
+
+  x <- dr$findElement('id', 'occurtab')
+  x <- x$getPageSource()[[1]]
+  x <- read_html(x)
+
+  ## Extract meta-data
+  lab <- html_nodes(x, "div div b") %>% html_text()
+  res <- html_nodes(x, "div div") %>% html_text()
+  res <- gsub("\t", "", res)
+
+  ocs <- grep(paste(lab, collapse = "|"), res)
+  n <- unlist(lapply(res[ocs], nchar))
+  res <- res[ocs]
+  res <- res[n<150]
+  res <- gsub("\n", "", res)
+  res <- res[-duplicated(res)]
+  res <- res[-grep("ImagesOpen|CommentLogin", res)]
+  res <- gsub("#", "", res)
+  res <- gsub(" :", ":", res)
+  res <- do.call(rbind, str_split(res, ":", n = 2))
+  res <- trimws(res)
+  res <- data.frame(res)
+  names(res) <- c("name", "value")
+
+  ## Extract URLs
+  x <- html_attr(html_nodes(x, "a"), "href")
+  urls <- x[grep("https", x)]
+
   # close server
   dr$close()
 
@@ -70,5 +106,5 @@ quickview <- function(Symbiota.ID = 4531213, verbose = TRUE){
     ignore.stdout = TRUE,
     ignore.stderr = TRUE
   )
-  return(pic)
+  return(list(screenshot = pic, meta = res, urls = urls))
 }

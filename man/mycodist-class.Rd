@@ -10,15 +10,18 @@
 \section{Slots}{
 
 \describe{
-\item{\code{nr.records}}{A nuneric of the number of records found}
-
-\item{\code{query}}{A list giving the user arguments used in the function}
+\item{\code{nr.records}}{A numeric giving the number of records retrieved}
 
 \item{\code{citation}}{A character string with the recommended citation from the website}
+
+\item{\code{query}}{A list of the user arguments used}
 
 \item{\code{records}}{A data.frame with the query records results}
 }}
 
 \seealso{
 \code{"\link[=mycodist-class]{mycodist}"}
+}
+\author{
+Franz-Sebastian Krah
 }

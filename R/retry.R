@@ -1,4 +1,8 @@
-# retry
+## This code is part of the rMyCoPortal R package ##
+## ©Franz-Sebastian Krah, 10-19-2018              ##
+
+# Helper function; retry if internet connection temporatliy fluctuates
+
 retry_next_page_download <- function(z, remdriver, max_attempts = 5,
                                      wait_seconds = 1) {
 

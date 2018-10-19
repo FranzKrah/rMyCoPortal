@@ -1,5 +1,5 @@
 #' Retrieve higher taxon records from the MyCoPortal
-#' @param taxon character string specifying the taxon name (e.g., species name, family name or higher taxon)
+#' @param taxon character string specifying the taxon name (here usually higher taxon, e.g., order level)
 #' @param port default is 4445L
 #' @param remoteServerAddr default is "localhost
 #' @param verbose logical
@@ -8,16 +8,18 @@
 #' @param browserName character string specifying the browser to use, recommended: "chrome"
 #'
 #' @return x an object of class "\code{mycodist}" with the following components:
-#' \item{nr.records}{A nuneric of the number of records found}
-#' \item{citation}{A character string with recommended citation}
-#' \item{query}{A list with user-specified query arguments}
-#' \item{records}{A data.frame with results from MyCoPortal}
+#' \item{nr.records}{A numeric giving the number of records retrieved}
+#' \item{citation}{A character string with the recommended citation from the website}
+#' \item{query}{A list of the user arguments used}
+#' \item{records}{A data.frame with the query records results}
 #'
-#' @details Interface to the web database MyCoPortal. Query records available by various user specifications.
-#' @references \url{http://mycoportal.org/portal/index.php}
+#' @details Interface to the web database MyCoPortal for higher taxonomic queries, e.g., order level. Here only full query results can be retrieved. If you want to make more specific queries please try \code{\link{records}}.
+#' @references see \code{\link{records}}
 #'
 #' @import RSelenium XML httr
 #' @importFrom crayon red
+#'
+#' @author Franz-Sebastian Krah
 #'
 #' @examples
 #' \dontrun{
@@ -28,25 +30,6 @@
 #' }
 #' @export
 #'
-
-# library("RSelenium")
-# library("XML")
-# library("httr")
-# library("stringr")
-# library("rvest")
-# library("xml2")
-# library("ssh.utils")
-# library("Hmisc")
-# library("crayon")
-
-# res <- records_hightax(taxon = "polyporales", sleep = 2)
-#
-# taxon = "thelephorales";
-# verbose = TRUE;
-# screenshot = TRUE;
-# port = 4445L;
-# browserName = "chrome";
-# remoteServerAddr = "localhost"
 
 records_hightax <- function(taxon = "Polyporales",
                         verbose = TRUE,

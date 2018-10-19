@@ -8,6 +8,8 @@
 #' @import treemap
 #' @importFrom Hmisc capitalize
 #'
+#' @author Franz-Sebastian Krah
+#'
 #' @examples
 #' \dontrun{
 #' am.dist <- records_ext(taxon = "Amanitaceae", taxon_type ="2")
@@ -15,11 +17,7 @@
 #' }
 #' @export
 
-# load("dev/amanitaceae.test.data.rda")
-# input <- am.dist
-# plot_recordstreemap(am.dist, log = FALSE)
-
-plot_recordstreemap <- function(x, groupvar = "country", log = TRUE, ...){
+plot_recordstreemap <- function(x, groupvar = "country", log = TRUE){
 
 
   ipt <- x@records
@@ -41,7 +39,7 @@ plot_recordstreemap <- function(x, groupvar = "country", log = TRUE, ...){
     vSize = ifelse(log, "Count.log", "Count"),
     vColor = ifelse(log, "Count.log", "Count"),
     palette = "RdYlBu",
-    title = paste("Log[10] Number of records for", x@query$taxon, ...)
+    title = paste("Log[10] Number of records for", x@query$taxon)
   )
 
 }

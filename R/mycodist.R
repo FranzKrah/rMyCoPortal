@@ -2,11 +2,15 @@
 #' @description Create objects of class
 #'   \code{"\link[=mycodist-class]{mycodist}"} from meta data
 #'   and a data.frame derived from \code{\link{records}}.
-#' @param nr.records numeric of number of records found
-#' @param citation character string with recommended citation
-#' @param query list with user-specified query arguments
-#' @param records data.frame displaying results from MyCoPortal
+#'
+#' @param nr.records A numeric giving the number of records retrieved
+#' @param citation A character string with the recommended citation from the website
+#' @param query A list of the user arguments used
+#' @param records A data.frame with the query records results
 #' @include mycodist-class.R
+#'
+#' @author Franz-Sebastian Krah
+#'
 #' @importFrom methods new
 #' @export
 

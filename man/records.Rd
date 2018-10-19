@@ -14,7 +14,7 @@ records(taxon = "Amanita muscaria", country = "", state = "",
   browserName = "chrome", remoteServerAddr = "localhost")
 }
 \arguments{
-\item{taxon}{character string specifying the taxon name (e.g., species name, family name or higher taxon)}
+\item{taxon}{character string specifying the taxon name (e.g., species name, family name or higher taxon). To query higher taxa, e.g. on order level, I recommend using \code{\link{records_hightax}}}
 
 \item{country}{character string specifying country, e.g., "USA"}
 
@@ -69,11 +69,11 @@ records(taxon = "Amanita muscaria", country = "", state = "",
 \item{remoteServerAddr}{default is "localhost}
 }
 \value{
-x an object of class "\code{mycodist}" with the following components:
-\item{nr.records}{A nuneric of the number of records found}
-\item{citation}{A character string with recommended citation}
-\item{query}{A list with user-specified query arguments}
-\item{records}{data.frame displaying results from MyCoPortal}
+x an object of class "\code{\link{mycodist}}" with the following components:
+\item{nr.records}{A numeric giving the number of records retrieved}
+\item{citation}{A character string with the recommended citation from the website}
+\item{query}{A list of the user arguments used}
+\item{records}{A data.frame with the query records results}
 }
 \description{
 Retrieve records from the MyCoPortal
@@ -91,4 +91,9 @@ recordsmap(am.dist, mapdatabase = "state",legend = FALSE)
 }
 \references{
 \url{http://mycoportal.org/portal/index.php}
+
+A. N. Miller and S. T. Bates The Mycology Collections Portal (MyCoPortal) (2017) Cryptogamie Mycologie, 37:15-36.
+}
+\author{
+Franz-Sebastian Krah
 }

@@ -1,8 +1,11 @@
 #' @title An S4 Class to represent query result from the function \link{records}
 #' @description \code{mycodist} holds a records table together with the query meta data and recommended citation
-#' @slot nr.records A nuneric of the number of records found
-#' @slot query A list giving the user arguments used in the function
+#'
+#' @author Franz-Sebastian Krah
+#'
+#' @slot nr.records A numeric giving the number of records retrieved
 #' @slot citation A character string with the recommended citation from the website
+#' @slot query A list of the user arguments used
 #' @slot records A data.frame with the query records results
 #' @seealso \code{"\link[=mycodist-class]{mycodist}"}
 

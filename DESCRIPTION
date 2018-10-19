@@ -11,16 +11,16 @@ LazyData: true
 RoxygenNote: 6.1.0
 Imports: RSelenium, httr, rworldmap, ggplot2, maps, rvest, XML, ssh.utils, xml2, stringr, treemap, magick, Hmisc, crayon, dplyr, sf, mapview, sp, methods
 Collate: 
-    'data_map.R'
-    'distribution_map.R'
+    'details.R'
     'getCollections.R'
     'mycodist-class.R'
     'mycodist.R'
     'nr_pages.R'
-    'quickview.R'
+    'plot_datamap.R'
+    'plot_distmap.R'
+    'plot_recordstreemap.R'
     'read_mycoporta_csv.R'
     'records.R'
-    'records_ext.R'
-    'recordtreemap.R'
+    'records_hightax.R'
     'remote_table.R'
     'retry.R'

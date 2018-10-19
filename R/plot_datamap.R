@@ -9,6 +9,9 @@
 #' @import ggplot2 maps
 #' @importFrom Hmisc capitalize
 #' @importFrom dplyr left_join
+#'
+#' @author Franz-Sebastian Krah
+#'
 #' @examples
 #' \dontrun{
 #' am.dist <- records_ext(taxon = "Amanitaceae", taxon_type = "2")

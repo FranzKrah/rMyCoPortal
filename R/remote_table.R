@@ -1,4 +1,8 @@
-# Helper function remote_table
+## This code is part of the rMyCoPortal R package ##
+## ©Franz-Sebastian Krah, 10-19-2018              ##
+
+# Helper function remote_table; scrapes the observation records
+
 remote_table <- function(remdriver){
 
   x <- remdriver$findElement('class', 'styledtable')

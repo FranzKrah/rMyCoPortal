@@ -4,7 +4,7 @@ The Mycology Collections data Portal (MyCoPortal) is a database of fungal divers
 
 The rMyCoPortal R package is an interface to the content stored on the MyCoPoral website. It allows to download records from the database readily in R for further analysis. It further provides some basic plotting functions. Below I will show the basic usability and some further possibilites of using the data.
 
-# Install rMyCoPortal
+## Install rMyCoPortal
 ```{r setup, include=TRUE, eval=FALSE}
 
 install.packages("devtools")
@@ -12,12 +12,12 @@ devtools::install_github("FranzKrah/rMyCoPortal")
 
 ```
 
-## Docker
+### Docker
 
 Before we start using rMyCoPortal, we need to install docker (https://docs.docker.com/install/). Docker performs  virtualization, also known as "containerization". rMyCoPortal interally uses the R package RSelenium to create a Selenium Server from which the MyCoPortal website is addressed. 
 Docker needs to run before using the rMyCoPortal.
 
-# Download records for *Amanita muscaria*, the fly agaric
+## Download records for *Amanita muscaria*, the fly agaric
 
 
 ```{r example1, include=TRUE, eval=TRUE, echo=TRUE}
@@ -58,7 +58,7 @@ plot_datamap(x = x, mapdatabase = "world",
 
 ```
 
-
+## Application
 We could now use the data to look at the range of suitable climatic conditions for A. muscaria. Let's use mean annual temperature and mean annual precipitation for now. 
 
 ```{r clim, include=TRUE, eval=TRUE, echo=TRUE}

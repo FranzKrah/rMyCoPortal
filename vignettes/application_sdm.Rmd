@@ -2,9 +2,6 @@
 title: "rMyCoPortal Example application"
 author: "Franz-Sebastian Krah"
 date: "10/21/2018"
-output:
-  pdf_document: default
-  html_document: default
 ---
 
 ```{r initialize, include=TRUE, eval=FALSE, echo=TRUE}

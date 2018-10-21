@@ -44,10 +44,13 @@
 #'
 #' @examples
 #' \dontrun{
-#' ## Query Amanitacae and plot on world map or USA map
-#' am.dist <- records(taxon = "Amanitaceae", taxon_type = 2)
-#' recordsmap(am.dist, mapdatabase = "world", legend = FALSE)
-#' recordsmap(am.dist, mapdatabase = "state",legend = FALSE)
+#' ## Download Amanita muscaria observations and plot visualize data
+#' am.dist <- records(taxon = "Amanita muscaria")
+#' plot_distmap(x = am.dist, mapdatabase = "world", interactive = FALSE)
+#' plot_distmap(x = am.dist, mapdatabase = "state", interactive = FALSE)
+#' plot_distmap(x = am.dist, mapdatabase = "world", interactive = TRUE)
+#' plot_datamap(x = am.dist, mapdatabase = "world")
+#' plot_recordstreemap(x = am.dist, log = FALSE)
 #' }
 #' @export
 
@@ -82,7 +85,12 @@ records <- function(taxon = "Amanita muscaria",
 
 
   if(taxon_type == "4"){
-    stop("To retrieve datasets for higher taxonomy please use function *records_hightax*")
+    cat(red("*records* may be unstable for higher taxon queries.","\n",
+            "If you encounter stabilitiy issues, try *records_hightax*"))
+
+    ent <- readline(prompt="Continue? [y/n]")
+    if(ent == "n")
+      stop("Aborted by user")
   }
 
   if(missing(taxon))
@@ -125,7 +133,7 @@ records <- function(taxon = "Amanita muscaria",
 
   ## Open connection; run server
   out <- capture.output(dr$open(silent = FALSE))
-  Sys.sleep(1)
+  Sys.sleep(2)
   if(verbose > 1)
     cat(out)
 
@@ -288,6 +296,7 @@ records <- function(taxon = "Amanita muscaria",
   res <- htmlParse(dr$getPageSource()[[1]])
   res <- xpathApply(res, "//div", xmlValue)
   res <- grep("No records found matching the query", res)
+
   if(length(res)>0){
     # close server
     dr$close()
@@ -304,63 +313,30 @@ records <- function(taxon = "Amanita muscaria",
                     paste(rep("#", 43), collapse = ""))))
     opt <- options(show.error.messages=FALSE)
     on.exit(options(opt))
-    stop()
+    return(mycodist(nr.records = 0, citation = "Not applicable", query = query, records = data.frame(Symbiota.ID = NULL)))
   }
-
 
 
   # Download tables -------------------------------------------------
   nr.p <- nr_pages(dr)
-  cat(ifelse(verbose, paste("Downloading", nr.p[[1]][2], "records\n"), ""))
+  cat(ifelse(verbose, paste("Downloading", nr.p, "pages\n"), ""))
   cat(red("Make sure you have a stable internet connection!\n"))
 
   ## Download tables in page-wise batches
   tabs <- list()
-  for(i in 0:nr.p$page.nr) {
-
-    tabs[[i+1]] <- retry_next_page_download(z = i, remdriver = dr, max_attempts = 5,
-                             wait_seconds = 2)
+  for (i in 0:(nr.p-1)) {
+    tabs[[i + 1]] <- retry_next_page_download(
+        z = i,
+        remdriver = dr,
+        max_attempts = 5,
+        wait_seconds = 2
+      )
 
   }
 
-  # for(i in 0:nr.p$page.nr){
-  #
-  #   # go to next page
-  #   cat(ifelse(verbose, paste("Retrieving data table", i, "/", nr.p$page.nr, "\n"), ""))
-  #
-  #   if(i == 1 & 1 != nr.p$page.nr){ ## first page if there is more than 1
-  #
-  #     # extract table
-  #     tabs[[i]] <- remote_table(dr)
-  #
-  #     # go to next page
-  #     try(webElem <-  dr$findElement("xpath", "//*[@id='tablediv']/div[1]/div[2]/a"), silent = TRUE)
-  #     try(webElem$clickElement(), silent = TRUE)
-  #     Sys.sleep(3)
-  #   }
-  #   if(i > 1 & i < nr.p$page.nr){ ## second page to n-1 page
-  #     # extract table
-  #     cat("downloading page ... ")
-  #
-  #     tabs[[i]] <- remote_table(dr)
-  #     cat("downloaded page\n")
-  #     # go to next page
-  #     # webElem <- dr$findElement("xpath", "//*[@id='tablediv']/div[1]/div[2]/a[2]")
-  #     # webElem$clickElement()
-  #
-  #     cat("clicked next page .. ")
-  #     retry_next_page(max_attempts = 10, wait_seconds = 1)
-  #     Sys.sleep(3)
-  #     cat("page loaded\n")
-  #   }
-  #   if(i == nr.p$page.nr){ ## last page or first page if there is no further page
-  #     # extract table
-  #     tabs[[i]] <- remote_table(dr)
-  #   }
-  # }
-
   ## Rbind all tables
   tabs <- do.call(rbind, tabs)
+  cat(nrow(tabs), "records were downloaded \n")
 
   ## Add coordinates as lon lat column
   tabs$coord <- stringr::str_extract(tabs$Locality, "-?\\d*\\.\\d*\\s\\-?\\d*\\.\\d*")
@@ -394,5 +370,5 @@ records <- function(taxon = "Amanita muscaria",
   }
   cit <- paste0("Biodiversity occurrence data published by: <", collection,"> (Accessed through MyCoPortal Data Portal, http//:mycoportal.org/portal/index.php, ", Sys.Date(), ")")
 
-  mycodist(nr.records = nr.p[[1]][2], citation = cit, query = query, records = tabs)
+  mycodist(nr.records = nrow(tabs), citation = cit, query = query, records = tabs)
 }

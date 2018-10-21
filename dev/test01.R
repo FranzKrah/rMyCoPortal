@@ -1,13 +1,13 @@
 #
-# library("RSelenium")
-# library("XML")
-# library("httr")
-# library("stringr")
-# library("rvest")
-# library("xml2")
-# library("ssh.utils")
-# #
-# taxon = "Amanita muscaria"
+library("RSelenium")
+library("XML")
+library("httr")
+library("stringr")
+library("rvest")
+library("xml2")
+library("ssh.utils")
+#
+taxon = "Amanita muscaria"
 # taxon = "Pleurotus"
 # taxon = "Polyporales"
 # country = ""; state = ""; county = ""; locality = ""; elevation_from = ""; elevation_to = ""; host = "";
@@ -15,15 +15,15 @@
 # north_lat = ""; south_lat = ""; west_lon = ""; east_lon = "";
 # point_lat = ""; point_lon = ""; radius = "";
 # collector = ""; collector_num = ""; coll_date1 = ""; coll_date2 = "";
-# syns = TRUE; verbose = TRUE
-# screenshot <- TRUE
-# port = 4445L
-# browserName = "chrome"
-# remoteServerAddr = "localhost"
+syns = TRUE; verbose = TRUE
+screenshot <- TRUE
+port = 4445L
+browserName = "chrome"
+remoteServerAddr = "localhost"
 # radius <- "50"
 # point_lat <- "42"
 # point_lon <- "-72"
-# collection <- "all"
+collection <- "all"
 
 
 

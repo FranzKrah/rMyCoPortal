@@ -83,10 +83,13 @@ Interface to the web database MyCoPortal. Query records available by various use
 }
 \examples{
 \dontrun{
-## Query Amanitacae and plot on world map or USA map
-am.dist <- records(taxon = "Amanitaceae", taxon_type = 2)
-recordsmap(am.dist, mapdatabase = "world", legend = FALSE)
-recordsmap(am.dist, mapdatabase = "state",legend = FALSE)
+## Download Amanita muscaria observations and plot visualize data
+am.dist <- records(taxon = "Amanita muscaria")
+plot_distmap(x = am.dist, mapdatabase = "world", interactive = FALSE)
+plot_distmap(x = am.dist, mapdatabase = "state", interactive = FALSE)
+plot_distmap(x = am.dist, mapdatabase = "world", interactive = TRUE)
+plot_datamap(x = am.dist, mapdatabase = "world")
+plot_recordstreemap(x = am.dist, log = FALSE)
 }
 }
 \references{

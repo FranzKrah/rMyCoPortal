@@ -9,7 +9,7 @@ records_hightax(taxon = "Polyporales", verbose = TRUE,
   remoteServerAddr = "localhost", sleep = 2)
 }
 \arguments{
-\item{taxon}{character string specifying the taxon name (e.g., species name, family name or higher taxon)}
+\item{taxon}{character string specifying the taxon name (here usually higher taxon, e.g., order level)}
 
 \item{verbose}{logical}
 

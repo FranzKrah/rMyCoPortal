@@ -4,6 +4,8 @@ library(rMyCoPortal)
 spec.dist <- records(taxon = "Amanita muscaria")
 save(spec.dist, file ="dev/amanita.test.data.rda")
 
+spec.dist <- records(taxon = "Biscogniauxia alnophila")
+
 ## Test for Family
 am.dist <- records(taxon = "Amanitaceae", taxon_type = 2)
 save(am.dist, file ="dev/amanitaceae.test.data.rda")
@@ -12,7 +14,7 @@ save(am.dist, file ="dev/amanitaceae.test.data.rda")
 ord.dist <- records(taxon = "Thelephorales", taxon_type = 4)
 save(ord.dist, file ="dev/thelephorales.test.data.rda")
 
-boletales.dist <- records_hightax(taxon = "boletales", sleep = 2)
+boletales.dist <- records_hightax(taxon = "Thelephorales", sleep = 2)
 save(boletales.dist, file ="dev/boletales_mycoportal.rda")
 
 russulales.dist <- records_hightax(taxon = "russulales", sleep = 2)

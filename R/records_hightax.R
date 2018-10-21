@@ -86,27 +86,23 @@ records_hightax <- function(taxon = "Polyporales",
 
   nr.p <- nr_pages(dr)
 
-  cat(ifelse(verbose, paste("Downloading", nr.p[[1]][2], "records\n"), ""))
+  cat(ifelse(verbose, paste("Downloading", nr.p, "records\n"), ""))
   cat(red("Make sure you have a stable internet connection!\n"))
 
   tabs <- list()
-  for(i in 1:nr.p$page.nr){
-    cat("navitage to next page")
+  for(i in 1:nr.p){
+    cat("page (", i, ") ...download ")
     dr$navigate(makeURL(taxon = taxon, i = i))
     Sys.sleep(sleep)
-    cat("... done\n")
-    cat("downloading page", i, "of", nr.p$page.nr[1])
     tabs[[i]] <- retry_remote_table(dr,
                                     max_attempts = 10,
                                     wait_seconds = 2)
-    cat("... done\n")
+    cat("...done\n")
   }
 
   ## Rbind all tables
   tabs <- do.call(rbind, tabs)
-
-
-  tabs <- tabs[tabs$Country=="Australia",]
+  cat(nrow(tabs), "records were downloaded \n")
 
   ## Add coordinates as lon lat column
   tabs$coord <- stringr::str_extract(tabs$Locality, "-?\\d*\\.\\d*\\s\\-?\\d*\\.\\d*")
@@ -132,6 +128,6 @@ records_hightax <- function(taxon = "Polyporales",
   )
 
   cit <- paste0("Biodiversity occurrence data published by: <all> (Accessed through MyCoPortal Data Portal, http//:mycoportal.org/portal/index.php, ", Sys.Date(), ")")
-  mycodist(nr.records = nr.p[[1]][2], citation = cit, query = list(taxon = taxon, taxon_type = 4), records = tabs)
+  mycodist(nr.records = nrow(tabs), citation = cit, query = list(taxon = taxon, taxon_type = 4), records = tabs)
 
 }

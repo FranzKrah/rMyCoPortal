@@ -132,7 +132,7 @@ x <- am.rec
 plot_recordstreemap(x = x, groupvar = "country", log = FALSE) # e.g., the country distribution
 ```
 
-![plot of chunk plots](vignettes//plots-1.png)
+![plot of chunk plots](plots//plots-1.png)
 
 ```r
 ## plot_distmap can be used to plot interactive and static distribution maps
@@ -156,7 +156,7 @@ p2 <- plot_distmap(x = x, mapdatabase = "state", interactive = FALSE, plot = FAL
 cowplot::plot_grid(p1, p2, ncol = 1, align = T)
 ```
 
-![plot of chunk plots](vignettes//plots-2.png)
+![plot of chunk plots](plots//plots-2.png)
 
 ```r
 ## plot_datamap can be used to plot heatmaps for either records or species richness (index = "rich")
@@ -168,7 +168,7 @@ p4 <- plot_datamap(x = x, mapdatabase = "state", index = "rec", plot = FALSE)
 cowplot::plot_grid(p3, p4, ncol = 1, align = TRUE)
 ```
 
-![plot of chunk plots](vignettes//plots-3.png)
+![plot of chunk plots](plots//plots-3.png)
 
 ```r
 ## And we can look up details for specific specimens
@@ -196,4 +196,4 @@ plot(image_read(det$urls[1]))
 plot(image_read(det$urls[3]))
 ```
 
-![plot of chunk plots](vignettes//plots-4.png)
+![plot of chunk plots](plots//plots-4.png)

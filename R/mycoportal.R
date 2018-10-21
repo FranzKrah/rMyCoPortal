@@ -1,5 +1,5 @@
 #' Retrieve records from the MyCoPortal
-#' @param taxon character string specifying the taxon name (e.g., species name, family name or higher taxon). To query higher taxa, e.g. on order level, I recommend using \code{\link{records_hightax}}
+#' @param taxon character string specifying the taxon name (e.g., species name, family name or higher taxon). To query higher taxa, e.g. on order level, I recommend using \code{\link{mycoportal_hightax}}
 #' @param country character string specifying country, e.g., "USA"
 #' @param state character string specifying state, e.g., "Massachusetts"
 #' @param county character string specifying county, e.g., "Worcester"

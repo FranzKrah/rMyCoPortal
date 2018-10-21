@@ -1,6 +1,6 @@
 #' Treemap of records data
 #'
-#' @param x an object of class "\code{mycodist}", see \link{records}
+#' @param x an object of class "\code{mycodist}", see \link{mycoportal}
 #' @param groupvar character of grouping variable, e.g., Country
 #' @param ... further arguments may be passed to \link{treemap}
 #' @param log logical whether data should be log-transformed
@@ -12,7 +12,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' am.dist <- records_ext(taxon = "Amanitaceae", taxon_type ="2")
+#' am.dist <- mycoportal(taxon = "Amanita muscaria")
 #' plot_recordstreemap(am.dist, log = FALSE)
 #' }
 #' @export

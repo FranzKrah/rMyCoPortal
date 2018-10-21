@@ -3,7 +3,7 @@
 
 #' Plot distribution data on map
 #'
-#' @param x an object of class "\code{mycodist}", see \link{records}
+#' @param x an object of class "\code{mycodist}", see \link{mycoportal}
 #' @param mapdatabase The map database to use in mapping. What you choose here
 #' 		determines what you can choose in the region parameter. One of: county,
 #' 		state, usa, world, world2, france, italy, or nz.
@@ -16,6 +16,8 @@
 #' @param panel plots panels for each species for species above threshold supplied to \code{panel}, e.g., 1000
 #' @param jitter If you use jitter, the amount by which to jitter
 #' 		points in width, height, or both.
+#' @param plot logical
+#'
 #' @return Map (using \link{ggplot2} package) of points or tiles on a world map.
 #' @import ggplot2 mapview sf sp
 #'
@@ -23,8 +25,9 @@
 #'
 #' @examples
 #' \dontrun{
-#' am.dist <- records_ext(taxon = "Amanita muscaria")
-#' plot_distmap(am.dist, mapdatabase = "state")
+#' am.dist <- mycoportal(taxon = "Amanita muscaria")
+#' plot_distmap(am.dist, mapdatabase = "state", interactive = TRUE)
+#' plot_distmap(am.dist, mapdatabase = "state", interactive = FALSE)
 #' }
 #' @export
 
@@ -34,7 +37,8 @@ plot_distmap <- function(x,
                        legend = FALSE,
                        panel = FALSE,
                        interactive = TRUE,
-                       jitter = position_jitter(width = 0, height = 0)) {
+                       jitter = position_jitter(width = 0, height = 0),
+                       plot = TRUE) {
 
   if(!interactive){
   ipt <- x@records
@@ -68,7 +72,8 @@ plot_distmap <- function(x,
   if(panel){
     p <- p + facet_wrap(~spec)
   }
-  plot(p)
+  if(plot)
+    plot(p)
   return(p)
   }
   if(interactive){

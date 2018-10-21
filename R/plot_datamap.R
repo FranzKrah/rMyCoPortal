@@ -1,11 +1,12 @@
 #' Plot data heatmap on geographic map
 #'
-#' @param x an object of class "\code{mycodist}", see \link{records}
+#' @param x an object of class "\code{mycodist}", see \link{mycoportal}
 #' @param mapdatabase The map database to use in mapping, see \link{plot_distmap}
 #' @param area list with four elements. Currently \code{mapdatabase} does not contain areas such as Europe,
 #' however, this may be manually chosen like this:
 #' area = list(min_long = -10, max_long = 24, min_lat = 14, max_lat = 70)
 #' @param index character string, either "rec" (number of records) or "rich" (number of species)
+#' @param plot logical
 #' @import ggplot2 maps
 #' @importFrom Hmisc capitalize
 #' @importFrom dplyr left_join
@@ -14,13 +15,13 @@
 #'
 #' @examples
 #' \dontrun{
-#' am.dist <- records_ext(taxon = "Amanitaceae", taxon_type = "2")
-#' plot_datamap(am.dist, mapdatabase = "country")
+#' am.dist <- mycoportal(taxon = "Amanita muscaria")
+#' plot_datamap(am.dist, mapdatabase = "state")
 #' }
 #' @export
 
 
-plot_datamap <- function(x, mapdatabase = "world", area = NULL, index = "rich"){
+plot_datamap <- function(x, mapdatabase = "world", area = NULL, index = "rich", plot = TRUE){
 
   ipt <- x@records
 
@@ -87,6 +88,8 @@ plot_datamap <- function(x, mapdatabase = "world", area = NULL, index = "rich"){
     ggtitle(paste(expression(Log[10]), tit)) +
     labs(fill = "")
 
-  plot(p)
+  if(plot)
+    plot(p)
+  return(p)
 
 }

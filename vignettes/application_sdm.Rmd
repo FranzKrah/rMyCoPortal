@@ -1,0 +1,180 @@
+---
+title: "rMyCoPortal Example application"
+author: "Franz-Sebastian Krah"
+date: "10/21/2018"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r initialize, include=TRUE, eval=FALSE, echo=TRUE}
+
+setwd("~")
+setwd("Documents/PhD/proj/high_priority/rMyCoPortal_paper/R/")
+setwd("PATH/TO/FOLDER WITH THIS SCRIPT")
+
+## Run first time to install R package
+```{r plots, include=TRUE, eval=FALSE, echo=TRUE}
+# install.packages("devtools")
+# devtools::install_github("FranzKrah/rMyCoPortal")
+```
+
+## Then, make sure you have Docker installed (https://www.docker.com)
+
+```{r libs, include=TRUE, eval=FALSE, echo=TRUE}
+## Load libraries
+library("rMyCoPortal")
+library("biomod2") # make sure maxent.jar is in the same folder if you want 
+# MaxEnt can be downloaded here https://biodiversityinformatics.amnh.org/open_source/maxent/
+library("sf")
+library("raster")
+```
+
+
+```{r download, include=TRUE, eval=FALSE, echo=TRUE}
+## Let's download some data for the famous fly agaric
+am.rec <- mycoportal(taxon = "Amanita muscaria") # please run again if server doesn't respond immediatelly
+am.rec
+```
+
+
+## Plot species distribition
+#######################################################
+```{r plot1, include=TRUE, eval=FALSE, echo=TRUE}
+# plot_distmap(x = x, mapdatabase = "world") # interactive version
+p.dist <- plot_distmap(x = am.rec, mapdatabase = "state", interactive = FALSE) # the default is interactive
+p.dist
+```
+
+## Plot species heatmap for USA
+#######################################################
+```{r plot2, include=TRUE, eval=FALSE, echo=TRUE}
+p.heat <- plot_datamap(x = am.rec, mapdatabase = "state")
+```
+
+
+## Climate suitability modelling
+#######################################################
+
+```{r clim, include=TRUE, eval=FALSE, echo=TRUE}
+rec <- am.rec@records
+rec <- rec[!(is.na(rec$lat) | is.na(rec$lon)), ]
+
+rec <- st_as_sf(x = rec, 
+                        coords = c("lon", "lat"),
+                        crs = "+proj=longlat +datum=WGS84")
+
+## crop to USA
+area = list(min_long = -130, max_long = -60, min_lat = 25, max_lat = 52)
+rec <- st_crop(rec,
+                       xmin = area$min_long,
+                       ymin = area$min_lat,
+                       xmax = area$max_long,
+                       ymax = area$max_lat
+)
+
+rec <- SpatialPointsDataFrame(coords = st_coordinates(rec),
+                         data = as.data.frame(rec))
+rec <- as.data.frame(rec)
+
+## Retrieve WorldClim data for current climatic data
+clim <- raster::getData(name = "worldclim", res = "2.5", var = "bio")
+clim <- crop(clim, extent(area$min_long, area$max_long, area$min_lat, area$max_lat))
+clim <- stack(clim)
+
+# the name of studied species
+myRespName <- 'Amanita_muscaria'
+
+# the XY coordinates of species data
+myRespXY <- rec[,c("X","Y")]
+myRespXY[] <- apply(myRespXY, 2, function(x) as.numeric(as.character(x)))
+
+clim.coord <- coordinates(clim)
+colnames(clim.coord) <- colnames(myRespXY)
+
+# some pseudo absence data
+samp <- sample(nrow(clim.coord), 1000)
+myRespXY <- rbind(data.frame(myRespXY), clim.coord[samp,])
+
+# the presence/absences data for our species
+myResp <- c(rep(1, nrow(rec)), rep(0, length(samp)))
+
+d <- duplicated(paste(myRespXY$X, myRespXY$Y))
+myRespXY <- myRespXY[!d,]
+myResp <- myResp[!d]
+```
+
+
+
+## Create BIOMOD data and model
+```{r biomod, include=TRUE, eval=FALSE, echo=TRUE}
+myBiomodData <- BIOMOD_FormatingData(resp.var = myResp,
+                                     expl.var = clim,
+                                     resp.xy = as.matrix(myRespXY),
+                                     resp.name = myRespName,
+                                     na.rm = TRUE)
+
+##  Defining Models Options using default options
+myBiomodOption <- BIOMOD_ModelingOptions()
+
+## Computing the models
+myBiomodModelOut <- BIOMOD_Modeling(
+  myBiomodData,
+  models = c("MAXENT.Phillips"), 
+  models.options = myBiomodOption, NbRunEval=1,
+  DataSplit=80,
+  Prevalence=0.5,
+  VarImport=3,
+  models.eval.meth = c('ROC', "TSS"),
+  SaveObj = TRUE,
+  rescal.all.models = TRUE,
+  do.full.models = FALSE,
+  modeling.id = paste(myRespName,"FirstModeling",sep=""))
+
+
+# get all models evaluation
+myBiomodModelEval <- get_evaluations(myBiomodModelOut)
+
+# let's print the ROC scores of all selected models
+myBiomodModelEval["ROC","Testing.data",,,]
+
+# print variable importances
+barplot(get_variables_importance(myBiomodModelOut)[,,,], beside = TRUE, las = 2)
+```
+
+```{r projection, include=TRUE, eval=FALSE, echo=TRUE}
+## Projection on current environemental conditions
+myBiomodProj <- BIOMOD_Projection(
+  modeling.output = myBiomodModelOut,
+  new.env = clim, 
+  proj.name = 'current', 
+  selected.models = 'all', 
+  binary.meth = 'TSS', 
+  compress = 'xz', 
+  clamping.mask = F, 
+  output.format = '.grd')
+
+plot(myBiomodProj)
+```
+
+## Projection on future environemental conditions
+```{r future, include=TRUE, eval=FALSE, echo=TRUE}
+cc85 <- raster::getData('CMIP5', var='bio', res=2.5, rcp=85, model='CC', year=70)
+cc85 <- crop(cc85, extent(area$min_long, area$max_long, area$min_lat, area$max_lat))
+cc85 <- stack(cc85)
+
+names(cc85) <- names(clim)
+
+myBiomodProjectionFuture <- BIOMOD_Projection(
+  modeling.output = myBiomodModelOut,
+  new.env = cc85, 
+  proj.name = 'future', 
+  selected.models = 'all', 
+  binary.meth = 'TSS', 
+  compress = 'xz', 
+  clamping.mask = F, 
+  output.format = '.grd')
+
+plot(myBiomodProjectionFuture)
+```
+

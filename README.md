@@ -26,7 +26,7 @@ library("rMyCoPortal")
 
 ## Download records
 
-am.rec <- records(taxon = "Amanita muscaria") # please run again if server doesn't respond immediatelly
+am.rec <- mycoportal(taxon = "Amanita muscaria") # please run again if server doesn't respond immediatelly
 am.rec
 
 ## The retrieved object stores a distribution table with 6570 records.

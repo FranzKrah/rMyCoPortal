@@ -1,0 +1,77 @@
+---
+title: "rMyCoPortal: Introduction"
+author: "Franz-Sebastian Krah"
+date: "10/8/2018"
+output:
+  pdf_document: default
+---
+
+# The MyCoPortal
+
+The Mycology Collections data Portal (MyCoPortal) is a database of fungal diversity with records mainly from North America. For more - and detailled - information, please visit http://mycoportal.org/portal/index.php.
+
+The rMyCoPortal R package is an interface to the content stored on the MyCoPoral website. It allows to download records from the database readily in R for further analysis. It further provides some basic plotting functions. Below I will show the basic usability and some further possibilites of using the data.
+
+# Install rMyCoPortal
+```{r setup, include=TRUE, eval=FALSE}
+
+install.packages("devtools")
+devtools::install_github("FranzKrah/rMyCoPortal")
+
+```
+
+## Docker
+
+Before we start using rMyCoPortal, we need to install docker (https://docs.docker.com/install/). Docker performs  virtualization, also known as "containerization". rMyCoPortal interally uses the R package RSelenium to create a Selenium Server from which the MyCoPortal website is addressed. 
+Docker needs to run before using the rMyCoPortal.
+
+# Download records for *Amanita muscaria*, the fly agaric
+
+
+```{r example1, include=TRUE, eval=TRUE, echo=TRUE}
+## Load library
+library("rMyCoPortal")
+
+## Download records
+
+am.rec <- mycoportal(taxon = "Amanita muscaria")
+am.rec
+
+head(am.rec@records)
+```
+
+## Visualization
+We can now use several plotting methods to visualize the data.
+
+```{r plots, include=TRUE, eval=TRUE, echo=TRUE}
+
+x <- am.rec
+
+## plot_recordstreemap can be used to visualize relative importance of aspects of the data
+plot_recordstreemap(x = x, groupvar = "country", log = FALSE) # e.g., the country distribution
+
+## plot_distmap can be used to plot interactive and static distribution maps
+p1 <- plot_distmap(x = x, mapdatabase = "world", interactive = FALSE, plot = FALSE) # the default is interactive
+
+# same for states
+p2 <- plot_distmap(x = x, mapdatabase = "state", interactive = FALSE, plot = FALSE)
+
+cowplot::plot_grid(p1, p2, ncol = 1, align = T)
+
+## plot_datamap can be used to plot heatmaps for either records or species richness (index = "rich")
+p3 <- plot_datamap(x = x, mapdatabase = "world", index = "rec", plot = FALSE)
+
+## the same but cropped to Europe
+p4 <- plot_datamap(x = x, mapdatabase = "state", index = "rec", plot = FALSE)
+
+cowplot::plot_grid(p3, p4, ncol = 1, align = TRUE)
+
+## And we can look up details for specific specimens
+library(magick)
+det <- details(x@records[1,1])
+length(det$urls)
+par(mfrow = c(1,2), mar = c(0,0,0,0))
+plot(image_read(det$urls[1]))
+plot(image_read(det$urls[3]))
+
+```

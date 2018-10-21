@@ -7,7 +7,7 @@
 plot_recordstreemap(x, groupvar = "country", log = TRUE)
 }
 \arguments{
-\item{x}{an object of class "\code{mycodist}", see \link{records}}
+\item{x}{an object of class "\code{mycodist}", see \link{mycoportal}}
 
 \item{groupvar}{character of grouping variable, e.g., Country}
 
@@ -23,7 +23,7 @@ Treemap of records data
 }
 \examples{
 \dontrun{
-am.dist <- records_ext(taxon = "Amanitaceae", taxon_type ="2")
+am.dist <- mycoportal(taxon = "Amanita muscaria")
 plot_recordstreemap(am.dist, log = FALSE)
 }
 }

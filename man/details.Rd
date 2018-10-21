@@ -4,7 +4,7 @@
 \alias{details}
 \title{Retrieve images and meta-data for a specific record (specimen)}
 \usage{
-details(Symbiota.ID = 4531213, verbose = TRUE)
+details(Symbiota.ID = 4531213)
 }
 \arguments{
 \item{Symbiota.ID, }{as found in output of \code{records}}
@@ -18,12 +18,13 @@ Retrieve images and meta-data for a specific record (specimen)
 \dontrun{
 # use function records to download records; then use one of the IDs:
 pic <- details(4531213)
-# show screenshot of details for this specimen
-print(pic$screenshot) # in Viewer (RStudio)
-plot(pic$screenshot) # as plot
 # Look at one of the images in more detail
-print(image_read(pic$urls[2])) # not all links are working in all instances
-# Look at meta data; this specimen was collected in 2012 in Washington
+print(image_read(pic$urls[1])) # a rather orangeish specimen
+par(mfrow = c(1,3))
+plot(image_read(pic$urls[1]))
+plot(image_read(pic$urls[2]))
+plot(image_read(pic$urls[3]))
+# Look at meta data
 pic$meta
 }
 }

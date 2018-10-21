@@ -7,14 +7,15 @@
 #' @param screenshot logical, whether screenshot of results should be displayed in Viewer
 #' @param browserName character string specifying the browser to use, recommended: "chrome"
 #'
-#' @return x an object of class "\code{mycodist}" with the following components:
+#' @return x an object of class "\code{records}" with the following components:
 #' \item{nr.records}{A numeric giving the number of records retrieved}
 #' \item{citation}{A character string with the recommended citation from the website}
 #' \item{query}{A list of the user arguments used}
 #' \item{records}{A data.frame with the query records results}
+#' \item{db}{A character string specifying the database (currently only MyCoPortal)}
 #'
-#' @details Interface to the web database MyCoPortal for higher taxonomic queries, e.g., order level. Here only full query results can be retrieved. If you want to make more specific queries please try \code{\link{records}}.
-#' @references see \code{\link{records}}
+#' @details Interface to the web database MyCoPortal for higher taxonomic queries, e.g., order level. Here only full query results can be retrieved. If you want to make more specific queries please try \code{\link{mycoportal}}.
+#' @references see \code{\link{mycoportal}}
 #'
 #' @import RSelenium XML httr
 #' @importFrom crayon red
@@ -24,14 +25,14 @@
 #' @examples
 #' \dontrun{
 #' ## Query Amanitacae and plot on world map or USA map
-#' poly.dist <- records_hightax(taxon = "polyporales", taxon_type = 2)
+#' poly.dist <- mycoportal_hightax(taxon = "polyporales", taxon_type = 2)
 #' recordsmap(poly.dist, mapdatabase = "world", legend = FALSE)
 #' recordsmap(poly.dist, mapdatabase = "state",legend = FALSE)
 #' }
 #' @export
 #'
 
-records_hightax <- function(taxon = "Polyporales",
+mycoportal_hightax <- function(taxon = "Polyporales",
                         verbose = TRUE,
                         screenshot = TRUE,
                         port = 4445L,
@@ -75,7 +76,7 @@ records_hightax <- function(taxon = "Polyporales",
           "&sortfield1=Catalog%20Number&sortfield2=&sortorder=asc")
   }
 
-  cat("Navitage to page\n")
+  cat(ifelse(verbose, "Open website\n", ""))
   url <- makeURL(taxon, 1)
   dr$navigate(url)
   Sys.sleep(3)
@@ -86,7 +87,7 @@ records_hightax <- function(taxon = "Polyporales",
 
   nr.p <- nr_pages(dr)
 
-  cat(ifelse(verbose, paste("Downloading", nr.p, "records\n"), ""))
+  cat(ifelse(verbose, paste("Downloading", nr.p, "pages\n"), ""))
   cat(red("Make sure you have a stable internet connection!\n"))
 
   tabs <- list()
@@ -128,6 +129,6 @@ records_hightax <- function(taxon = "Polyporales",
   )
 
   cit <- paste0("Biodiversity occurrence data published by: <all> (Accessed through MyCoPortal Data Portal, http//:mycoportal.org/portal/index.php, ", Sys.Date(), ")")
-  mycodist(nr.records = nrow(tabs), citation = cit, query = list(taxon = taxon, taxon_type = 4), records = tabs)
+  records(nr.records = nrow(tabs), citation = cit, query = list(taxon = taxon, taxon_type = 4), records = tabs)
 
 }

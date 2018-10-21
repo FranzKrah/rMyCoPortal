@@ -6,10 +6,10 @@
 \usage{
 plot_distmap(x, mapdatabase = "world", region = ".", legend = FALSE,
   panel = FALSE, interactive = TRUE, jitter = position_jitter(width =
-  0, height = 0))
+  0, height = 0), plot = TRUE)
 }
 \arguments{
-\item{x}{an object of class "\code{mycodist}", see \link{records}}
+\item{x}{an object of class "\code{mycodist}", see \link{mycoportal}}
 
 \item{mapdatabase}{The map database to use in mapping. What you choose here
 determines what you can choose in the region parameter. One of: county,
@@ -28,6 +28,8 @@ for the state layer.}
 
 \item{jitter}{If you use jitter, the amount by which to jitter
 points in width, height, or both.}
+
+\item{plot}{logical}
 }
 \value{
 Map (using \link{ggplot2} package) of points or tiles on a world map.
@@ -37,8 +39,9 @@ Plot distribution data on map
 }
 \examples{
 \dontrun{
-am.dist <- records_ext(taxon = "Amanita muscaria")
-plot_distmap(am.dist, mapdatabase = "state")
+am.dist <- mycoportal(taxon = "Amanita muscaria")
+plot_distmap(am.dist, mapdatabase = "state", interactive = TRUE)
+plot_distmap(am.dist, mapdatabase = "state", interactive = FALSE)
 }
 }
 \author{

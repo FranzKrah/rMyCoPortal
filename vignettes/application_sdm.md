@@ -1,5 +1,5 @@
 ---
-title: "rMyCoPortal Example application"
+title: "rMyCoPortal: Example application"
 author: "Franz-Sebastian Krah"
 date: "10/21/2018"
 ---
@@ -7,7 +7,6 @@ date: "10/21/2018"
 
 ```r
 setwd("~")
-setwd("Documents/PhD/proj/high_priority/rMyCoPortal_paper/R/")
 setwd("PATH/TO/FOLDER WITH THIS SCRIPT")
 
 ## Run first time to install R package

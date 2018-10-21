@@ -2,8 +2,6 @@
 title: "rMyCoPortal: Introduction"
 author: "Franz-Sebastian Krah"
 date: "10/8/2018"
-output:
-  pdf_document: default
 ---
 
 # The MyCoPortal

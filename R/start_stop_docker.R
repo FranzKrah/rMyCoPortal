@@ -28,11 +28,24 @@ start_docker <- function(verbose = TRUE){
 #' @export
 stop_docker <- function(){
 
-  system(
-    "docker stop $(docker ps -a -q)",
-    ignore.stdout = TRUE,
-    ignore.stderr = TRUE
-  )
+  out <- exec_internal("docker", args = c("ps", "-q"))
+
+
+  stdo <- tempfile()
+  out <- exec_wait("docker", "ps", std_out = stdo)
+  out <- readLines(stdo)
+  out[2] <- gsub("\\s+", " ", out[2])
+  out[2] <- stringr::str_split(out[[2]], "\\s")
+  nam <- out[[2]][length(out[[2]])]
+
+  out <- exec_internal("docker", args = c("stop", nam))
+
+
+  # system(
+  #   "docker stop $(docker ps -a -q)",
+  #   ignore.stdout = TRUE,
+  #   ignore.stderr = TRUE
+  # )
   Sys.sleep(1)
 }
 

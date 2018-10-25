@@ -6,6 +6,8 @@
 #' @param sleep set time to wait till page is loaded, default: 2 (don't go lower than that)
 #' @param screenshot logical, whether screenshot of results should be displayed in Viewer
 #' @param browserName character string specifying the browser to use, recommended: "chrome"
+#' @param wait numberic specifying the seconds to wait for website to load, recommended 2 for good internet connections;
+#' higher otherwise. It would be good to first look up the number of pages for a species and to compare it with the function output to see whether loading times are sufficient.
 #'
 #' @return x an object of class "\code{records}" with the following components:
 #' \item{nr.records}{A numeric giving the number of records retrieved}
@@ -38,28 +40,30 @@ mycoportal_hightax <- function(taxon = "Polyporales",
                         port = 4445L,
                         browserName = "chrome",
                         remoteServerAddr = "localhost",
-                        sleep = 2){
+                        wait = 2){
+
+
+  ## test
+  if(!url.exists("r-project.org") == TRUE)
+    stop( "Not connected to the internet. Please create a stable connection and try again." )
+  if(!is.character(getURL("http://mycoportal.org/portal/index.php")))
+    stop(" Database is not available : http://mycoportal.org/portal/index.php")
+
+  if(missing(taxon))
+    stop("At least a species name has to be specified")
+
+  wait <- ifelse(wait<=2, 2, wait)
 
   ## Allocate port
-  out <- ssh.utils::run.remote(
-    cmd = "docker run -d -p 4445:4444 selenium/standalone-chrome",
-    verbose = FALSE,
-    intern = TRUE
-  )
-  if(verbose)
-    if(is.na(out$cmd.out[2])){
-      cat("Port is allocated \n")
-    }else{print(out$cmd.out[2])}
-  if(verbose > 1)
-    cat(out)
+  start_docker(verbose = verbose, sleep = wait)
 
   ## Set up remote
   dr <- RSelenium::remoteDriver(remoteServerAddr = "localhost", port = port, browserName = browserName)
-  Sys.sleep(sleep)
+  Sys.sleep(wait)
 
   ## Open connection; run server
   out <- capture.output(dr$open(silent = FALSE))
-  Sys.sleep(1)
+  Sys.sleep(wait)
   if(verbose > 1)
     cat(out)
 
@@ -79,7 +83,7 @@ mycoportal_hightax <- function(taxon = "Polyporales",
   cat(ifelse(verbose, "Open website\n", ""))
   url <- makeURL(taxon, 1)
   dr$navigate(url)
-  Sys.sleep(3)
+  Sys.sleep(wait+1)
 
   if(screenshot)
     dr$screenshot(display = TRUE)
@@ -123,11 +127,7 @@ mycoportal_hightax <- function(taxon = "Polyporales",
   dr$close()
 
   ## Stop docker
-  system(
-    "docker stop $(docker ps -a -q)",
-    ignore.stdout = TRUE,
-    ignore.stderr = TRUE
-  )
+  stop_docker()
 
   cit <-
     paste0(

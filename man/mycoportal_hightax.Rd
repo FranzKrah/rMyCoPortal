@@ -6,7 +6,7 @@
 \usage{
 mycoportal_hightax(taxon = "Polyporales", verbose = TRUE,
   screenshot = TRUE, port = 4445L, browserName = "chrome",
-  remoteServerAddr = "localhost", sleep = 2)
+  remoteServerAddr = "localhost", wait = 2)
 }
 \arguments{
 \item{taxon}{character string specifying the taxon name (here usually higher taxon, e.g., order level)}
@@ -20,6 +20,9 @@ mycoportal_hightax(taxon = "Polyporales", verbose = TRUE,
 \item{browserName}{character string specifying the browser to use, recommended: "chrome"}
 
 \item{remoteServerAddr}{default is "localhost}
+
+\item{wait}{numberic specifying the seconds to wait for website to load, recommended 2 for good internet connections;
+higher otherwise. It would be good to first look up the number of pages for a species and to compare it with the function output to see whether loading times are sufficient.}
 
 \item{sleep}{set time to wait till page is loaded, default: 2 (don't go lower than that)}
 }

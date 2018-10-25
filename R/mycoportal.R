@@ -26,6 +26,8 @@
 #' @param verbose logical
 #' @param screenshot logical, whether screenshot of results should be displayed in Viewer
 #' @param browserName character string specifying the browser to use, recommended: "chrome"
+#' @param wait numberic specifying the seconds to wait for website to load, recommended 2 for good internet connections;
+#' higher otherwise. It would be good to first look up the number of pages for a species and to compare it with the function output to see whether loading times are sufficient.
 #'
 #' @return x an object of class "\code{\link{records}}" with the following components:
 #' \item{nr.records}{A numeric giving the number of records retrieved}
@@ -83,7 +85,8 @@ mycoportal <- function(taxon = "Amanita muscaria",
            screenshot = TRUE,
            port = 4445L,
            browserName = "chrome",
-           remoteServerAddr = "localhost") {
+           remoteServerAddr = "localhost",
+           wait = 2) {
 
 
   # test internet conectivity
@@ -104,13 +107,17 @@ mycoportal <- function(taxon = "Amanita muscaria",
   if(missing(taxon))
     stop("At least a species name has to be specified")
 
+  if(length(grep("_", taxon))>0)
+    taxon <- gsub("_", " ", taxon)
+
+  wait <- ifelse(wait<=2, 2, wait)
 
   # Initialize session -----------------------------------------------------
   start_docker(verbose = verbose)
 
   ## Set up remote
   dr <- remoteDriver(remoteServerAddr = "localhost", port = port, browserName = browserName)
-  Sys.sleep(1)
+  Sys.sleep(wait-1)
 
   ## Open connection; run server
   out <- capture.output(dr$open(silent = FALSE))
@@ -130,10 +137,10 @@ mycoportal <- function(taxon = "Amanita muscaria",
 
   if(collection == "all"){ #usually it is convenient to query all collections
     dr$navigate("http://mycoportal.org/portal/collections/harvestparams.php")
-    Sys.sleep(3)
+    Sys.sleep(wait+1)
   }else{ ## however, user may want specific collections
     dr$navigate("http://mycoportal.org/portal/collections/index.php")
-    Sys.sleep(3)
+    Sys.sleep(wait+1)
 
     ## uncheck all collections
     button <- dr$findElement('xpath', "//*[@id='dballcb']")
@@ -266,7 +273,7 @@ mycoportal <- function(taxon = "Amanita muscaria",
 
   # Press Enter -----------------------------------------------------
   webElem$sendKeysToElement(list(key = "enter"))
-  Sys.sleep(3)
+  Sys.sleep(wait+2)
 
   if(screenshot)
     dr$screenshot(display = TRUE, useViewer = TRUE)
@@ -313,7 +320,7 @@ mycoportal <- function(taxon = "Amanita muscaria",
         z = i,
         remdriver = dr,
         max_attempts = 5,
-        wait_seconds = 2
+        wait_seconds = wait
       )
 
   }

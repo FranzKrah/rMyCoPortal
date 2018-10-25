@@ -11,7 +11,7 @@ mycoportal(taxon = "Amanita muscaria", country = "", state = "",
   point_lat = "", point_lon = "", radius = "", collector = "",
   collector_num = "", coll_date1 = "", coll_date2 = "",
   syns = TRUE, verbose = TRUE, screenshot = TRUE, port = 4445L,
-  browserName = "chrome", remoteServerAddr = "localhost")
+  browserName = "chrome", remoteServerAddr = "localhost", wait = 2)
 }
 \arguments{
 \item{taxon}{character string specifying the taxon name (e.g., species name, family name or higher taxon). To query higher taxa, e.g. on order level, I recommend using \code{\link{mycoportal_hightax}}}
@@ -67,6 +67,9 @@ mycoportal(taxon = "Amanita muscaria", country = "", state = "",
 \item{browserName}{character string specifying the browser to use, recommended: "chrome"}
 
 \item{remoteServerAddr}{default is "localhost}
+
+\item{wait}{numberic specifying the seconds to wait for website to load, recommended 2 for good internet connections;
+higher otherwise. It would be good to first look up the number of pages for a species and to compare it with the function output to see whether loading times are sufficient.}
 }
 \value{
 x an object of class "\code{\link{records}}" with the following components:

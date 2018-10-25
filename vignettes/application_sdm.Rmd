@@ -9,6 +9,14 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
+## Requirements
+Under the new MacOS Mojave there have been problems with the sf and raster package. The introduction vignette works fine under Sierra, Mojave and Windows10. However, the vignette *application example* might create errors under Mojave.
+
+R version 3.5.1 (2018-07-02)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS High Sierra 10.13.6
+
+
 ```{r initialize, include=TRUE, eval=FALSE, echo=TRUE}
 
 setwd("~")
@@ -141,6 +149,7 @@ myBiomodModelEval["ROC","Testing.data",,,]
 
 # print variable importances
 barplot(get_variables_importance(myBiomodModelOut)[,,,], beside = TRUE, las = 2)
+## bio7: Temperature Annual Range
 ```
 
 ```{r projection, include=TRUE, eval=FALSE, echo=TRUE}

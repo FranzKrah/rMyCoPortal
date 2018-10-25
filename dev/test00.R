@@ -1,45 +1,17 @@
 library(rMyCoPortal)
 
-## Test for species
+## Test of functions
 
+## no results
+spec.dist <- mycoportal(taxon = "Biscogniauxia alnophila")
+## results
 spec.dist <- mycoportal(taxon = "Amanita muscaria")
-save(spec.dist, file ="dev/amanita.test.data.rda")
-
-spec.dist <- mycoportal_dev(taxon = "Biscogniauxia alnophila")
-
 ## Test for Family
 am.dist <- mycoportal(taxon = "Amanitaceae", taxon_type = 2)
-save(am.dist, file ="dev/amanitaceae.test.data.rda")
-
 ## Test for order
-ord.dist <- mycoportal(taxon = "Thelephorales", taxon_type = 4)
-save(ord.dist, file ="dev/thelephorales.test.data.rda")
-
-boletales.dist <- mycoportal_hightax(taxon = "Thelephorales", sleep = 2)
-save(boletales.dist, file ="dev/boletales_mycoportal.rda")
-
-russulales.dist <- mycoportal_hightax(taxon = "russulales", sleep = 2)
-save(russulales.dist, file ="dev/russulales_mycoportal.rda")
-
-cantharellales.dist <- mycoportal_hightax(taxon = "cantharellales", sleep = 2)
-save(cantharellales.dist, file ="dev/cantharellales_mycoportal.rda")
-
-agaricales.dist <- mycoportal_hightax(taxon = "agaricales", sleep = 2)
-save(agaricales.dist, file ="dev/agaricales_mycoportal.rda")
-
-## Test radius
-spec.rad <- mycoportal(
-  taxon = "Pleurotus",
-  point_lat = "42",
-  point_lon = "-72",
-  radius = "50",
-  taxon_type = "1")
-
-## Plotting
-load(file ="dev/cagaricales_mycoportal.rda")
-load(file ="dev/cantharellales_mycoportal.rda")
-load(file ="dev/russulales_mycoportal.rda")
-load(file ="dev/boletales_mycoportal.rda")
+thelephorales.dist <- mycoportal(taxon = "Thelephorales", taxon_type = 4)
+## then switch to other function
+thelephorales.dist <- mycoportal_hightax(taxon = "Thelephorales")
 
 x <- spec.dist
 plot_distmap(x = x, mapdatabase = "world")
@@ -48,9 +20,40 @@ plot_datamap(x = x, mapdatabase = "world")
 plot_datamap(x = x, mapdatabase = "world", index = "rich",
              area = list(min_long = -10, max_long = 30, min_lat = 30, max_lat = 70))
 
+details(x@records$Symbiota.ID[1])
 
-plot_distmap(x = ord.dist, mapdatabase = "world", panel = FALSE)
-plot_recordstreemap(x = ord.dist, log = FALSE)
-plot_datamap(x = ord.dist, mapdatabase = "world")
 
-details(4531213)
+
+### for debugging:
+
+library("RSelenium")
+library("XML")
+library("httr")
+library("stringr")
+library("rvest")
+library("xml2")
+library("ssh.utils")
+
+
+# taxon = "Amanita muscaria"
+# country = "";
+# state = "";
+# county = "";
+# locality = "";
+# elevation_from = "";
+# elevation_to = "";
+# host = "";
+# taxon_type = 4;
+# north_lat = ""; south_lat = ""; west_lon = ""; east_lon = "";
+# point_lat = ""; point_lon = ""; radius = "";
+# collector = ""; collector_num = ""; coll_date1 = ""; coll_date2 = "";
+# syns = TRUE;
+# verbose = TRUE
+# screenshot <- TRUE
+# port = 4445L
+# browserName = "chrome"
+# remoteServerAddr = "localhost"
+# radius <- "50"
+# point_lat <- "42"
+# point_lon <- "-72"
+# collection <- "all"

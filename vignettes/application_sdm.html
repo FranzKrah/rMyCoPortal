@@ -72,12 +72,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
+<div id="requirements" class="section level2">
+<h2>Requirements</h2>
+<p>Under the new MacOS Mojave there have been problems with the sf and raster package. The introduction vignette works fine under Sierra, Mojave and Windows10. However, the vignette <em>application example</em> might create errors under Mojave.</p>
+<p>R version 3.5.1 (2018-07-02) Platform: x86_64-apple-darwin15.6.0 (64-bit) Running under: macOS High Sierra 10.13.6</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setwd</span>(<span class="st">&quot;~&quot;</span>)
 <span class="kw">setwd</span>(<span class="st">&quot;PATH/TO/FOLDER WITH THIS SCRIPT&quot;</span>)
 
 ## Run first time to install R package</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;devtools&quot;)</span>
 <span class="co"># devtools::install_github(&quot;FranzKrah/rMyCoPortal&quot;)</span></code></pre></div>
+</div>
 <div id="then-make-sure-you-have-docker-installed-httpswww.docker.com" class="section level2">
 <h2>Then, make sure you have Docker installed (<a href="https://www.docker.com" class="uri">https://www.docker.com</a>)</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Load libraries
@@ -190,7 +195,8 @@ myBiomodModelEval &lt;-<span class="st"> </span><span class="kw">get_evaluations
 myBiomodModelEval[<span class="st">&quot;ROC&quot;</span>,<span class="st">&quot;Testing.data&quot;</span>,,,]
 
 <span class="co"># print variable importances</span>
-<span class="kw">barplot</span>(<span class="kw">get_variables_importance</span>(myBiomodModelOut)[,,,], <span class="dt">beside =</span> <span class="ot">TRUE</span>, <span class="dt">las =</span> <span class="dv">2</span>)</code></pre></div>
+<span class="kw">barplot</span>(<span class="kw">get_variables_importance</span>(myBiomodModelOut)[,,,], <span class="dt">beside =</span> <span class="ot">TRUE</span>, <span class="dt">las =</span> <span class="dv">2</span>)
+## bio7: Temperature Annual Range</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Projection on current environemental conditions
 myBiomodProj &lt;-<span class="st"> </span><span class="kw">BIOMOD_Projection</span>(
   <span class="dt">modeling.output =</span> myBiomodModelOut,

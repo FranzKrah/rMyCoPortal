@@ -4,6 +4,15 @@ The Mycology Collections data Portal (MyCoPortal) is a database of fungal divers
 
 The rMyCoPortal R package is an interface to the content stored on the MyCoPoral website. It allows to download records from the database readily in R for further analysis. It further provides some basic plotting functions. Below I will show the basic usability and some further possibilites of using the data.
 
+
+## Requirements
+Under the new MacOS Mojave there have been problems with the sf and raster package. The introduction vignette works fine under Sierra, Mojave and Windows10. However, the vignette *application example* might create errors under Mojave.
+
+R version 3.5.1 (2018-07-02)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS High Sierra 10.13.6
+
+
 ## Install rMyCoPortal
 ```{r setup, include=TRUE, eval=FALSE}
 
@@ -109,3 +118,4 @@ plot_grid(p.mat, p.map, ncol = 2)
 Please note that this project is released with a Contributor [Code of Conduct](https://github.com/FranzKrah/rMyCoPortal/blob/master/CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 Please [report](https://github.com/FranzKrah/rMyCoPortal/issues) any issues or bugs.
+ 

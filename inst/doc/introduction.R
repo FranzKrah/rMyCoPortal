@@ -40,7 +40,7 @@ cowplot::plot_grid(p3, p4, ncol = 1, align = TRUE)
 
 ## And we can look up details for specific specimens
 library(magick)
-det <- details(x@records[1,1])
+det <- details(x@records$Symbiota.ID[1])
 length(det$urls)
 par(mfrow = c(1,2), mar = c(0,0,0,0))
 plot(image_read(det$urls[1]))

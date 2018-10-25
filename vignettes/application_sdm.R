@@ -110,6 +110,7 @@
 #  
 #  # print variable importances
 #  barplot(get_variables_importance(myBiomodModelOut)[,,,], beside = TRUE, las = 2)
+#  ## bio7: Temperature Annual Range
 
 ## ----projection, include=TRUE, eval=FALSE, echo=TRUE---------------------
 #  ## Projection on current environemental conditions

@@ -17,7 +17,7 @@
 #' @details Interface to the web database MyCoPortal for higher taxonomic queries, e.g., order level. Here only full query results can be retrieved. If you want to make more specific queries please try \code{\link{mycoportal}}.
 #' @references see \code{\link{mycoportal}}
 #'
-#' @import RSelenium XML httr
+#' @import RSelenium
 #' @importFrom crayon red
 #'
 #' @author Franz-Sebastian Krah
@@ -81,7 +81,8 @@ mycoportal_hightax <- function(taxon = "Polyporales",
   dr$navigate(url)
   Sys.sleep(3)
 
-  dr$screenshot(display = TRUE)
+  if(screenshot)
+    dr$screenshot(display = TRUE)
 
   # Download tables -------------------------------------------------
 
@@ -128,7 +129,19 @@ mycoportal_hightax <- function(taxon = "Polyporales",
     ignore.stderr = TRUE
   )
 
-  cit <- paste0("Biodiversity occurrence data published by: <all> (Accessed through MyCoPortal Data Portal, http//:mycoportal.org/portal/index.php, ", Sys.Date(), ")")
-  records(nr.records = nrow(tabs), citation = cit, query = list(taxon = taxon, taxon_type = 4), records = tabs)
+  cit <-
+    paste0(
+      "Biodiversity occurrence data published by: <all> (Accessed through MyCoPortal Data Portal, http//:mycoportal.org/portal/index.php, ",
+      Sys.Date(),
+      ")"
+    )
+
+  records(
+    nr.records = nrow(tabs),
+    citation = cit,
+    query = list(taxon = taxon, taxon_type = 4),
+    records = tabs,
+    db = "MyCoPortal"
+  )
 
 }

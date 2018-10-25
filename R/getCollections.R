@@ -4,7 +4,7 @@
 #'
 #' @author Franz-Sebastian Krah
 #'
-#' @import XML
+#' @importFrom XML xpathSApply htmlParse
 #' @export
 
 getCollections <- function(){
@@ -15,15 +15,15 @@ getCollections <- function(){
   ## xPath to collection names
   coll2 <- xpathSApply(coll, "//*[@id='specobsdiv']//form//div[2]//table/..//a")
   coll3 <- xpathSApply(coll, "//*[@id='specobsdiv']//form//div[3]//table/..//a")
-  coll2 <- c(coll2, coll3)
+  coll <- c(coll2, coll3)
 
   ## Extract names
-  coll2 <- lapply(coll2, function(x) as(x, "character"))
-  coll2 <- str_split(coll2, "\t\t\t\t")
-  coll2 <- unlist(coll2)
-  coll2 <- coll2[-grep("href|</a>|\tmore", coll2)]
-  coll2 <- coll2[lapply(coll2, nchar) > 0]
-  coll2 <- gsub("\t", "", coll2)
+  coll <- lapply(coll, function(x) as(x, "character"))
+  coll <- str_split(coll, "\t\t\t\t")
+  coll <- unlist(coll)
+  coll <- coll[-grep("href|</a>|\tmore", coll2)]
+  coll <- coll[lapply(coll, nchar) > 0]
+  coll <- gsub("\t", "", coll)
 
-  return(coll2)
+  return(coll)
 }

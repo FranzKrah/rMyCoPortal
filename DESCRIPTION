@@ -9,11 +9,12 @@ License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.0
-Imports: RSelenium, httr, rworldmap, ggplot2, maps, rvest, XML, ssh.utils, xml2, stringr, treemap, magick, Hmisc, crayon, dplyr, sf, mapview, sp, methods
+Imports: RSelenium, httr, rworldmap, ggplot2, maps, rvest, XML, xml2, stringr, treemap, magick, Hmisc, crayon, dplyr, sf, mapview, sp, methods, RCurl, sys
 Collate:
     'details.R'
     'getCollections.R'
     'mycoportal.R'
+    'mycoportal_dev.R'
     'mycoportal_hightax.R'
     'nr_pages.R'
     'plot_datamap.R'
@@ -24,6 +25,7 @@ Collate:
     'records.R'
     'remote_table.R'
     'retry.R'
+    'start_stop_docker.R'
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr

@@ -11,7 +11,6 @@ remote_table <- function(remdriver){
   x <- x$getPageSource()[[1]]
   x <- read_html(x)
   x <- html_table(x)[[1]]
-  # x <- retry_getHTML(remdriver, max_attempts = 10, wait_seconds = 1)
 
   return(x)
 }

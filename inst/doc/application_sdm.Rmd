@@ -1,26 +1,28 @@
 ---
-title: "rMyCoPortal: Example application"
+title: "rMyCoPortal - Example application"
 author: "Franz-Sebastian Krah"
-date: "10/21/2018"
+# date: "`.r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Example application}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
 ---
 
+```{r initialize, include=TRUE, eval=FALSE, echo=TRUE}
 
-```r
 setwd("~")
 setwd("PATH/TO/FOLDER WITH THIS SCRIPT")
 
 ## Run first time to install R package
-```
-
-```r
+```{r plots, include=TRUE, eval=FALSE, echo=TRUE}
 # install.packages("devtools")
 # devtools::install_github("FranzKrah/rMyCoPortal")
 ```
 
 ## Then, make sure you have Docker installed (https://www.docker.com)
 
-
-```r
+```{r libs, include=TRUE, eval=FALSE, echo=TRUE}
 ## Load libraries
 library("rMyCoPortal")
 library("biomod2") # make sure maxent.jar is in the same folder if you want 
@@ -30,8 +32,7 @@ library("raster")
 ```
 
 
-
-```r
+```{r download, include=TRUE, eval=FALSE, echo=TRUE}
 ## Let's download some data for the famous fly agaric
 am.rec <- mycoportal(taxon = "Amanita muscaria") # please run again if server doesn't respond immediatelly
 am.rec
@@ -40,8 +41,7 @@ am.rec
 
 ## Plot species distribition
 #######################################################
-
-```r
+```{r plot1, include=TRUE, eval=FALSE, echo=TRUE}
 # plot_distmap(x = x, mapdatabase = "world") # interactive version
 p.dist <- plot_distmap(x = am.rec, mapdatabase = "state", interactive = FALSE) # the default is interactive
 p.dist
@@ -49,8 +49,7 @@ p.dist
 
 ## Plot species heatmap for USA
 #######################################################
-
-```r
+```{r plot2, include=TRUE, eval=FALSE, echo=TRUE}
 p.heat <- plot_datamap(x = am.rec, mapdatabase = "state")
 ```
 
@@ -58,8 +57,7 @@ p.heat <- plot_datamap(x = am.rec, mapdatabase = "state")
 ## Climate suitability modelling
 #######################################################
 
-
-```r
+```{r clim, include=TRUE, eval=FALSE, echo=TRUE}
 rec <- am.rec@records
 rec <- rec[!(is.na(rec$lat) | is.na(rec$lon)), ]
 
@@ -110,8 +108,7 @@ myResp <- myResp[!d]
 
 
 ## Create BIOMOD data and model
-
-```r
+```{r biomod, include=TRUE, eval=FALSE, echo=TRUE}
 myBiomodData <- BIOMOD_FormatingData(resp.var = myResp,
                                      expl.var = clim,
                                      resp.xy = as.matrix(myRespXY),
@@ -146,8 +143,7 @@ myBiomodModelEval["ROC","Testing.data",,,]
 barplot(get_variables_importance(myBiomodModelOut)[,,,], beside = TRUE, las = 2)
 ```
 
-
-```r
+```{r projection, include=TRUE, eval=FALSE, echo=TRUE}
 ## Projection on current environemental conditions
 myBiomodProj <- BIOMOD_Projection(
   modeling.output = myBiomodModelOut,
@@ -163,8 +159,7 @@ plot(myBiomodProj)
 ```
 
 ## Projection on future environemental conditions
-
-```r
+```{r future, include=TRUE, eval=FALSE, echo=TRUE}
 cc85 <- raster::getData('CMIP5', var='bio', res=2.5, rcp=85, model='CC', year=70)
 cc85 <- crop(cc85, extent(area$min_long, area$max_long, area$min_lat, area$max_lat))
 cc85 <- stack(cc85)

@@ -1,7 +1,12 @@
 ---
-title: "rMyCoPortal: Example application"
+title: "rMyCoPortal - Example application"
 author: "Franz-Sebastian Krah"
-date: "10/21/2018"
+# date: "`.r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Example application}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
 ---
 
 ```{r initialize, include=TRUE, eval=FALSE, echo=TRUE}

@@ -57,7 +57,7 @@
 #' @export
 
 
-mycoportal_dev <- function(taxon = "Amanita muscaria",
+mycoportal <- function(taxon = "Amanita muscaria",
            country = "",
            state = "",
            county = "",
@@ -105,8 +105,35 @@ mycoportal_dev <- function(taxon = "Amanita muscaria",
     stop("At least a species name has to be specified")
 
 
-  # Initialize session -----------------------------------------------------
-  start_docker(verbose = verbose)
+  # Initialize session ------------------------------------------------------
+
+  ## Set up Docker image
+  out <- ssh.utils::run.remote(
+    cmd = "docker pull selenium/standalone-chrome",
+    verbose = FALSE,
+    intern = TRUE
+  )
+  if(verbose)
+    out$cmd.out[4]
+  if(verbose > 1)
+    print(out)
+
+  if(out$cmd.error)
+    stop("Docker not available. Please start Docker app.")
+
+  ## Allocate port
+  out <- ssh.utils::run.remote(
+    cmd = "docker run -d -p 4445:4444 selenium/standalone-chrome",
+    verbose = FALSE,
+    intern = TRUE
+  )
+  Sys.sleep(1)
+  if(verbose)
+    if(is.na(out$cmd.out[2])){
+      cat("Port is allocated \n")
+    }else{print(out$cmd.out[2])}
+  if(verbose > 1)
+    cat(out)
 
   ## Set up remote
   dr <- remoteDriver(remoteServerAddr = "localhost", port = port, browserName = browserName)
@@ -337,7 +364,11 @@ mycoportal_dev <- function(taxon = "Amanita muscaria",
   dr$close()
 
   ## Stop docker
-  stop_docker()
+  system(
+    "docker stop $(docker ps -a -q)",
+    ignore.stdout = TRUE,
+    ignore.stderr = TRUE
+  )
 
   ## Return downloaded query results as data.frame
 

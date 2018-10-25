@@ -4,7 +4,10 @@
 \alias{stop_docker}
 \title{Stop Docker}
 \usage{
-stop_docker()
+stop_docker(sleep = 2)
+}
+\arguments{
+\item{sleep}{waiting time for system call to finish}
 }
 \description{
 Stop Docker

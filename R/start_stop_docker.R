@@ -1,9 +1,10 @@
 #' Start Docker
 #' @param verbose logical
+#' @param sleep waiting time for system call to finish
 #' @import sys
 #' @details This should run for Unix platforms (e.g., Mac) and Windows. Docker available for download at: https://www.docker.com
 #' @export
-start_docker <- function(verbose = TRUE){
+start_docker <- function(verbose = TRUE, sleep = 2){
 
   cmd = "docker"
 
@@ -20,16 +21,16 @@ start_docker <- function(verbose = TRUE){
       stop_docker()
       stop("Port is not allocated. Run *stop_docker* and try again\n")
     }
-  Sys.sleep(2)
+  Sys.sleep(sleep)
 }
 
 #' Stop Docker
+#' @param sleep waiting time for system call to finish
 #' @details This should run for Unix platforms (e.g., Mac) and Windows. Docker available for download at: https://www.docker.com
 #' @export
-stop_docker <- function(){
+stop_docker <- function(sleep = 2){
 
   out <- exec_internal("docker", args = c("ps", "-q"))
-
 
   stdo <- tempfile()
   out <- exec_wait("docker", "ps", std_out = stdo)
@@ -40,13 +41,7 @@ stop_docker <- function(){
 
   out <- exec_internal("docker", args = c("stop", nam))
 
-
-  # system(
-  #   "docker stop $(docker ps -a -q)",
-  #   ignore.stdout = TRUE,
-  #   ignore.stderr = TRUE
-  # )
-  Sys.sleep(1)
+  Sys.sleep(sleep)
 }
 
 

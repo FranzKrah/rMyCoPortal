@@ -5,7 +5,7 @@ library(rMyCoPortal)
 spec.dist <- mycoportal_dev(taxon = "Amanita muscaria")
 save(spec.dist, file ="dev/amanita.test.data.rda")
 
-spec.dist <- mycoportal(taxon = "Biscogniauxia alnophila")
+spec.dist <- mycoportal_dev(taxon = "Biscogniauxia alnophila")
 
 ## Test for Family
 am.dist <- mycoportal(taxon = "Amanitaceae", taxon_type = 2)

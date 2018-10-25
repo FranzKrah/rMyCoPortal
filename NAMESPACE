@@ -3,7 +3,6 @@
 export(details)
 export(getCollections)
 export(mycoportal)
-export(mycoportal_dev)
 export(mycoportal_hightax)
 export(plot_datamap)
 export(plot_distmap)

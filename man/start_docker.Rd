@@ -4,10 +4,12 @@
 \alias{start_docker}
 \title{Start Docker}
 \usage{
-start_docker(verbose = TRUE)
+start_docker(verbose = TRUE, sleep = 2)
 }
 \arguments{
 \item{verbose}{logical}
+
+\item{sleep}{waiting time for system call to finish}
 }
 \description{
 Start Docker

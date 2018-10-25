@@ -1,6 +1,3 @@
-## ----session, include=TRUE, eval=TRUE------------------------------------
-sessionInfo()
-
 ## ----initialize, include=TRUE, eval=FALSE, echo=TRUE---------------------
 #  
 #  setwd("~")

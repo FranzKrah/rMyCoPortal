@@ -6,22 +6,34 @@
 #' @export
 start_docker <- function(verbose = TRUE, sleep = 2){
 
-  cmd = "docker"
-
-  out <- exec_internal(cmd, args = c("pull", "selenium/standalone-chrome"))
+  out <- exec_internal("docker", args = c("ps", "-q"))
   if(out$status != 0)
     stop("Docker not available. Please start Docker app.")
 
-  out <- exec_internal(cmd, args = c("run", "-d", "-p", "4445:4444", "selenium/standalone-chrome"),
-                       error = FALSE)
-  if (verbose)
-    if (out$status == 0) {
-      cat("Port is allocated \n")
-    } else {
-      stop_docker()
-      stop("Port is not allocated. Run *stop_docker* and try again\n")
-    }
+  if(verbose){
+    out <- exec_wait("docker", args = c("pull", "selenium/standalone-chrome"))
+  }else{
+    out <- exec_internal("docker", args = c("pull", "selenium/standalone-chrome"))
+  }
   Sys.sleep(sleep)
+
+  # out <- exec_internal("docker", args = c("run", "-d", "-p", "4445:4444", "selenium/standalone-chrome"),
+                         # error = FALSE)
+
+
+  tmp <- tempdir()
+  std.out <- paste0(tmp, "/out.txt")
+  std.err <- paste0(tmp, "/err.txt")
+  out <- exec_background("docker", args = c("run", "-d", "-p", "4445:4444", "selenium/standalone-chrome"),
+                         std_out = std.out, std_err = std.err)
+
+  Sys.sleep(1)
+  if(out != 0){
+    err <- readLines(std.err)
+    cat(err)
+  }
+  unlink(std.out)
+  unlink(std.err)
 }
 
 #' Stop Docker

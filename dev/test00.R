@@ -32,10 +32,11 @@ library("httr")
 library("stringr")
 library("rvest")
 library("xml2")
-library("ssh.utils")
+library("sys")
 
 
-# taxon = "Amanita muscaria"
+
+taxon = "Amanita muscaria"
 # country = "";
 # state = "";
 # county = "";
@@ -48,11 +49,11 @@ library("ssh.utils")
 # point_lat = ""; point_lon = ""; radius = "";
 # collector = ""; collector_num = ""; coll_date1 = ""; coll_date2 = "";
 # syns = TRUE;
-# verbose = TRUE
-# screenshot <- TRUE
-# port = 4445L
-# browserName = "chrome"
-# remoteServerAddr = "localhost"
+verbose = TRUE
+screenshot <- TRUE
+port = 4445L
+browserName = "chrome"
+remoteServerAddr = "localhost"
 # radius <- "50"
 # point_lat <- "42"
 # point_lon <- "-72"

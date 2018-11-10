@@ -3,7 +3,7 @@
 #' @param port default is 4445L
 #' @param remoteServerAddr default is "localhost
 #' @param verbose logical
-#' @param sleep set time to wait till page is loaded, default: 2 (don't go lower than that)
+#' @param wait set time to wait till page is loaded, default: 2 (don't go lower than that)
 #' @param screenshot logical, whether screenshot of results should be displayed in Viewer
 #' @param browserName character string specifying the browser to use, recommended: "chrome"
 #' @param wait numberic specifying the seconds to wait for website to load, recommended 2 for good internet connections;
@@ -99,7 +99,7 @@ mycoportal_hightax <- function(taxon = "Polyporales",
   for(i in 1:nr.p){
     cat("page (", i, ") ...download ")
     dr$navigate(makeURL(taxon = taxon, i = i))
-    Sys.sleep(sleep)
+    Sys.sleep(wait)
     tabs[[i]] <- retry_remote_table(dr,
                                     max_attempts = 10,
                                     wait_seconds = 2)

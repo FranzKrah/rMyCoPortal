@@ -98,10 +98,6 @@ mycoportal <- function(taxon = "Amanita muscaria",
   if(taxon_type == "4"){
     cat(red("*mycoportal* may be unstable for higher taxon queries.","\n",
             "If you encounter stabilitiy issues, try *mycoportal_hightax*"))
-
-    ent <- readline(prompt="Continue? [y/n]")
-    if(ent == "n")
-      stop("Aborted by user")
   }
 
   if(missing(taxon))

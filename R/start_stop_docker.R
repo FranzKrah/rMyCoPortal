@@ -1,25 +1,17 @@
 #' Start Docker
 #' @param verbose logical
-#' @param sleep waiting time for system call to finish
+#' @param wait waiting time for system call to finish
 #' @import sys
 #' @details This should run for Unix platforms (e.g., Mac) and Windows. Docker available for download at: https://www.docker.com
 #' @export
-start_docker <- function(verbose = TRUE, sleep = 2){
+#'
+#'
 
-  out <- exec_internal("docker", args = c("ps", "-q"))
-  if(out$status != 0)
-    stop("Docker not available. Please start Docker app.")
 
-  if(verbose){
-    out <- exec_wait("docker", args = c("pull", "selenium/standalone-chrome"))
-  }else{
-    out <- exec_internal("docker", args = c("pull", "selenium/standalone-chrome"))
-  }
-  Sys.sleep(sleep)
+start_docker <- function(verbose = TRUE, wait = 2){
 
-  # out <- exec_internal("docker", args = c("run", "-d", "-p", "4445:4444", "selenium/standalone-chrome"),
-                         # error = FALSE)
-
+  out <- exec_internal("docker", args = c("pull", "selenium/standalone-chrome"))
+  Sys.sleep(wait)
 
   tmp <- tempdir()
   std.out <- paste0(tmp, "/out.txt")
@@ -27,10 +19,19 @@ start_docker <- function(verbose = TRUE, sleep = 2){
   out <- exec_background("docker", args = c("run", "-d", "-p", "4445:4444", "selenium/standalone-chrome"),
                          std_out = std.out, std_err = std.err)
 
-  Sys.sleep(1)
+  Sys.sleep(wait)
+
+  err <- readLines(std.err)
+  err.le <- length(grep("Error", err))
+  noerr <- length(grep("already", err))
+
   if(out != 0){
-    err <- readLines(std.err)
-    cat(err)
+    if(err.le == 1 & noerr == 1)
+    {
+      cat("Port is allocated\n")
+    }else{
+      stop("Error")
+    }
   }
   unlink(std.out)
   unlink(std.err)

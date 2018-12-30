@@ -1,17 +1,19 @@
 Package: rMyCoPortal
 Type: Package
-Title: R Interface to the Mycology Collections data Portal (rMyCoPortal) 
+Title: rMyCoPortal - An R package to interface with the Mycology Collections Portal
 Version: 1.0.0
-Author: Franz-Sebastian Krah
-Maintainer: The package maintainer <f.krah@mailbox.org>
-Description: Interface to the Mycology Collections data Portal (MyCoPortal). Allows to query taxon distribution information from the MyCoPortal for North America. 
+Authors@R: c(person("Franz-Sebastian", "Krah", role=c("aut", "cre", "cph"),
+                                          email = "f.krah@mailbox.org"))
+Author: Franz-Sebastian Krah [aut, cre, cph]
+Maintainer: Franz-S. Krah <f.krah@mailbox.org>
+Description: Interface to the Mycology Collections data Portal (MyCoPortal). Allows to query fungal distribution data from the MyCoPortal. 
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.0
 Reference: A. N. Miller and S. T. Bates The Mycology Collections Portal (MyCoPortal) (2017) Cryptogamie Mycologie, 37:15-36.
 URL: http://mycoportal.org/portal/index.php
-Imports: RSelenium, httr, rworldmap, ggplot2, maps, rvest, XML, xml2, stringr, treemap, magick, Hmisc, crayon, dplyr, sf, mapview, sp, methods, RCurl, sys, knitr
+Imports: RSelenium, httr, rworldmap, ggplot2, maps, rvest, XML, xml2, stringr, treemap, magick, Hmisc, crayon, dplyr, sf, mapview, sp, RCurl, sys, knitr, methods, utils
 Collate:
     'details.R'
     'getCollections.R'
@@ -27,5 +29,6 @@ Collate:
     'remote_table.R'
     'retry.R'
     'start_stop_docker.R'
-Suggests: knitr, rmarkdown
+Suggests: rmarkdown, R.rsp
+NeedsCompilation: no
 VignetteBuilder: knitr

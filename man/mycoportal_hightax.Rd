@@ -19,12 +19,9 @@ mycoportal_hightax(taxon = "Polyporales", verbose = TRUE,
 
 \item{browserName}{character string specifying the browser to use, recommended: "chrome"}
 
-\item{remoteServerAddr}{default is "localhost}
+\item{remoteServerAddr}{default is "localhost"}
 
-\item{wait}{set time to wait till page is loaded, default: 2 (don't go lower than that)}
-
-\item{wait}{numberic specifying the seconds to wait for website to load, recommended 2 for good internet connections;
-higher otherwise. It would be good to first look up the number of pages for a species and to compare it with the function output to see whether loading times are sufficient.}
+\item{wait}{numeric specifying the seconds to wait for website to load, recommended 2 for good internet connections, higher otherwise.}
 }
 \value{
 x an object of class "\code{records}" with the following components:
@@ -45,7 +42,7 @@ Interface to the web database MyCoPortal for higher taxonomic queries, e.g., ord
 ## Query Amanitacae and plot on world map or USA map
 poly.dist <- mycoportal_hightax(taxon = "polyporales", taxon_type = 2)
 recordsmap(poly.dist, mapdatabase = "world", legend = FALSE)
-recordsmap(poly.dist, mapdatabase = "state",legend = FALSE)
+recordsmap(poly.dist, mapdatabase = "state", legend = FALSE)
 }
 }
 \references{

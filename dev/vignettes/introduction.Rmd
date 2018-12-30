@@ -1,12 +1,7 @@
 ---
 title: "rMyCoPortal - Introduction"
 author: "Franz-Sebastian Krah"
-# date: "`.r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Introduction}
-  %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
+output: pdf_document
 ---
 
 ## Requirements

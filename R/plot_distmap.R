@@ -20,6 +20,7 @@
 #'
 #' @return Map (using \link{ggplot2} package) of points or tiles on a world map.
 #' @import ggplot2 mapview sf sp
+#' @importFrom stats complete.cases
 #'
 #' @author Franz-Sebastian Krah
 #'
@@ -58,9 +59,9 @@ plot_distmap <- function(x,
     tomap <- tomap[tomap$spec %in% nr.rec, ]
     }
 
-  p <- ggplot(world, aes(long, lat)) + # make the plot
-    geom_polygon(aes(group=group), fill="white", color="gray40", size=0.2) +
-    geom_point(data=tomap, aes(lon, lat, color = spec),
+  p <- ggplot(world, aes(world$long, world$lat)) + # make the plot
+    geom_polygon(aes(group=world$group), fill="white", color="gray40", size=0.2) +
+    geom_point(data=tomap, aes(tomap$lon, tomap$lat, color = tomap$spec),
                alpha = 0.4, size = 3, position = jitter) +
     labs(x="", y="") + theme_bw(base_size = 14) +
     ggtitle(paste("Distribution map for", x@query$taxon)) +

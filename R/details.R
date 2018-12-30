@@ -1,8 +1,8 @@
 #' Retrieve images and meta-data for a specific record (specimen)
 #' @param Symbiota.ID, as found in output of \code{records}
-#' @param verbose logical
 #'
 #' @import magick rvest
+#' @importFrom methods as
 #'
 #' @author Franz-Sebastian Krah
 #'

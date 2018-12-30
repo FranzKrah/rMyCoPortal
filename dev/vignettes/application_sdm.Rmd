@@ -2,12 +2,12 @@
 title: "rMyCoPortal - Example application"
 author: "Franz-Sebastian Krah"
 # date: "`.r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Example application}
-  %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
+output: pdf_document
 ---
+<!-- vignette: > -->
+  <!-- %\VignetteIndexEntry{Example application} -->
+  <!-- %\VignetteEngine{knitr::rmarkdown} -->
+  <!-- \usepackage[utf8]{inputenc} -->
 
 ## Requirements
 Under the new MacOS Mojave there have been problems with the sf and raster package. The introduction vignette works fine under Sierra, Mojave and Windows10. However, the vignette *application example* might create errors under Mojave.

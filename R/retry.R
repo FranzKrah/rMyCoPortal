@@ -2,6 +2,26 @@
 ## ©Franz-Sebastian Krah, 10-19-2018              ##
 
 # Helper function; retry if internet connection temporatliy fluctuates
+start_docker_try <- function(max_attempts, verbose, wait){
+
+  for (j in seq_len(max_attempts)) {
+
+    out <- tryCatch(start_docker(verbose = verbose, wait = wait),
+                    message = function(n) {"Unstable"},
+                    warning = function(w) {"Unstable";},
+                    error = function(e) {"Unstable";}
+    )
+
+    if(out == 0){
+      return(out)
+    }
+    if(out == "Unstable"){
+      if(verbose & j == max_attempts)
+        cat(red("Server does not respond. Please check of Docker is running correctly."))
+      Sys.sleep(1)
+    }
+  }
+}
 
 next_page_download <- function(z, remdriver, k) {
 

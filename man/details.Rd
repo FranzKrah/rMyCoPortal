@@ -8,8 +8,6 @@ details(Symbiota.ID = 4531213)
 }
 \arguments{
 \item{Symbiota.ID, }{as found in output of \code{records}}
-
-\item{verbose}{logical}
 }
 \description{
 Retrieve images and meta-data for a specific record (specimen)

@@ -95,8 +95,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 am.rec &lt;-<span class="st"> </span><span class="kw">mycoportal</span>(<span class="dt">taxon =</span> <span class="st">&quot;Amanita muscaria&quot;</span>) <span class="co"># please run again if server doesn't respond immediatelly</span>
 am.rec</code></pre></div>
 </div>
-<div id="plot-species-distribition" class="section level2">
-<h2>Plot species distribition</h2>
+<div id="plot-species-distribution" class="section level2">
+<h2>Plot species distribution</h2>
 <div id="section" class="section level55">
 <p></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># plot_distmap(x = x, mapdatabase = &quot;world&quot;) # interactive version</span>
@@ -111,8 +111,8 @@ p.dist</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p.heat &lt;-<span class="st"> </span><span class="kw">plot_datamap</span>(<span class="dt">x =</span> am.rec, <span class="dt">mapdatabase =</span> <span class="st">&quot;state&quot;</span>)</code></pre></div>
 </div>
 </div>
-<div id="climate-suitability-modelling" class="section level2">
-<h2>Climate suitability modelling</h2>
+<div id="climate-suitability-modeling" class="section level2">
+<h2>Climate suitability modeling</h2>
 <div id="section-2" class="section level55">
 <p></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rec &lt;-<span class="st"> </span>am.rec<span class="op">@</span>records
@@ -210,8 +210,8 @@ myBiomodProj &lt;-<span class="st"> </span><span class="kw">BIOMOD_Projection</s
 
 <span class="kw">plot</span>(myBiomodProj)</code></pre></div>
 </div>
-<div id="projection-on-future-environemental-conditions" class="section level2">
-<h2>Projection on future environemental conditions</h2>
+<div id="projection-on-future-environmental-conditions" class="section level2">
+<h2>Projection on future environmental conditions</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cc85 &lt;-<span class="st"> </span>raster<span class="op">::</span><span class="kw">getData</span>(<span class="st">'CMIP5'</span>, <span class="dt">var=</span><span class="st">'bio'</span>, <span class="dt">res=</span><span class="fl">2.5</span>, <span class="dt">rcp=</span><span class="dv">85</span>, <span class="dt">model=</span><span class="st">'CC'</span>, <span class="dt">year=</span><span class="dv">70</span>)
 cc85 &lt;-<span class="st"> </span><span class="kw">crop</span>(cc85, <span class="kw">extent</span>(area<span class="op">$</span>min_long, area<span class="op">$</span>max_long, area<span class="op">$</span>min_lat, area<span class="op">$</span>max_lat))
 cc85 &lt;-<span class="st"> </span><span class="kw">stack</span>(cc85)

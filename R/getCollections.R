@@ -1,10 +1,11 @@
 #' List of available collections
 #'
-#' @details Get list of avaible collections from the MyCoPortal. For details also see \url{http://mycoportal.org/portal/collections/index.php}
+#' @details Get list of available collections from the MyCoPortal. For details also see \url{http://mycoportal.org/portal/collections/index.php}
 #'
 #' @author Franz-Sebastian Krah
 #'
 #' @importFrom XML xpathSApply htmlParse
+#' @importFrom methods as
 #' @export
 
 getCollections <- function(){
@@ -18,7 +19,7 @@ getCollections <- function(){
   coll <- c(coll2, coll3)
 
   ## Extract names
-  coll <- lapply(coll, function(x) as(x, "character"))
+  coll <- lapply(coll, as, "character")
   coll <- str_split(coll, "\t\t\t\t")
   coll <- unlist(coll)
   coll <- coll[-grep("href|</a>|\tmore", coll2)]

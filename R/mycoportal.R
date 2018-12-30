@@ -26,7 +26,7 @@
 #' @param verbose logical
 #' @param screenshot logical, whether screenshot of results should be displayed in Viewer
 #' @param browserName character string specifying the browser to use, recommended: "chrome"
-#' @param wait numberic specifying the seconds to wait for website to load, recommended 2 for good internet connections;
+#' @param wait numeric specifying the seconds to wait for website to load, recommended 2 for good internet connections;
 #' higher otherwise. It would be good to first look up the number of pages for a species and to compare it with the function output to see whether loading times are sufficient.
 #'
 #' @return x an object of class "\code{\link{records}}" with the following components:
@@ -89,6 +89,8 @@ mycoportal <- function(taxon = "Amanita muscaria",
            wait = 2) {
 
 
+  # TESTS -----------------------------------------------------
+
   # test internet conectivity
   if(!url.exists("r-project.org") == TRUE)
     stop( "Not connected to the internet. Please create a stable connection and try again." )
@@ -106,10 +108,21 @@ mycoportal <- function(taxon = "Amanita muscaria",
   if(length(grep("_", taxon))>0)
     taxon <- gsub("_", " ", taxon)
 
+  ## Test if Docker is running
+  out <- exec_internal("docker", args = c("ps", "-q"), error = FALSE)
+  if(out$status != 0)
+    stop("Docker not available. Please start Docker! https://www.docker.com")
+
+  ## Wait should not be smaller than 2 seconds
   wait <- ifelse(wait<=2, 2, wait)
 
+
   # Initialize session -----------------------------------------------------
-  start_docker(verbose = verbose)
+  if(verbose){
+    cat("Initialize server\n")
+  }
+  start_docker_try(verbose = ifelse(verbose >= 1, TRUE, FALSE), max_attempts = 5, wait = wait)
+
 
   ## Set up remote
   dr <- remoteDriver(remoteServerAddr = "localhost", port = port, browserName = browserName)
@@ -124,7 +137,7 @@ mycoportal <- function(taxon = "Amanita muscaria",
   if(dr$getStatus()$ready)
     cat(dr$getStatus()$message[1], "\n")
   if(!dr$getStatus()$ready)
-    stop("Remote server is not running \n Please check if Docker is installed!")
+    stop("Remote server is not running \n Please check if Docker is running!")
 
 
   # Open Website -----------------------------------------------------------
@@ -253,7 +266,7 @@ mycoportal <- function(taxon = "Amanita muscaria",
   webElem <- dr$findElement('id', "collector")
   webElem$sendKeysToElement(list(collector))
 
-  ## Collector numbner
+  ## Collector number
   webElem <- dr$findElement('id', "collnum")
   webElem$sendKeysToElement(list(collector_num))
 
@@ -285,7 +298,7 @@ mycoportal <- function(taxon = "Amanita muscaria",
     dr$close()
 
     ## stop docker
-    cat(ifelse(verbose, "Stop Docker\n", ""))
+    cat(ifelse(verbose, "Stop Server\n", ""))
     system(
       "docker stop $(docker ps -a -q)",
       ignore.stdout = TRUE,

@@ -73,8 +73,8 @@ plot_datamap <- function(x, mapdatabase = "world", area = NULL, index = "rich", 
 
   ## Plot
 
-  p <- ggplot(ipt, aes(x = long, y = lat, group = group))+
-    geom_polygon(aes(fill = Count), color = "gray65") +
+  p <- ggplot(ipt, aes(x = ipt$long, y = ipt$lat, group = ipt$group))+
+    geom_polygon(aes(fill = ipt$Count), color = "gray65") +
     scale_fill_gradientn(colours =c("lightgray", "yellow", "red"),
                          trans = "log10", na.value = "white") +
     coord_fixed(1.3) +

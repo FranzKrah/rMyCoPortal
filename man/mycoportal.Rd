@@ -68,7 +68,7 @@ mycoportal(taxon = "Amanita muscaria", country = "", state = "",
 
 \item{remoteServerAddr}{default is "localhost}
 
-\item{wait}{numberic specifying the seconds to wait for website to load, recommended 2 for good internet connections;
+\item{wait}{numeric specifying the seconds to wait for website to load, recommended 2 for good internet connections;
 higher otherwise. It would be good to first look up the number of pages for a species and to compare it with the function output to see whether loading times are sufficient.}
 }
 \value{

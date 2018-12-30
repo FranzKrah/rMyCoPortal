@@ -10,7 +10,7 @@ getCollections()
 List of available collections
 }
 \details{
-Get list of avaible collections from the MyCoPortal. For details also see \url{http://mycoportal.org/portal/collections/index.php}
+Get list of available collections from the MyCoPortal. For details also see \url{http://mycoportal.org/portal/collections/index.php}
 }
 \author{
 Franz-Sebastian Krah

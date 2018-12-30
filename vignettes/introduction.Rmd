@@ -4,7 +4,7 @@ author: "Franz-Sebastian Krah"
 # date: "`.r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction}
+  %\VignetteIndexEntry{rMyCoPortal - Introduction}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -19,9 +19,9 @@ Running under: macOS High Sierra 10.13.6
 
 # The MyCoPortal
 
-The Mycology Collections data Portal (MyCoPortal) is a database of fungal diversity with records mainly from North America. For more - and detailled - information, please visit http://mycoportal.org/portal/index.php.
+The Mycology Collections data Portal (MyCoPortal) is a database of fungal diversity with records mainly from North America. For more - and detailed - information, please visit http://mycoportal.org/portal/index.php.
 
-The rMyCoPortal R package is an interface to the content stored on the MyCoPoral website. It allows to download records from the database readily in R for further analysis. It further provides some basic plotting functions. Below I will show the basic usability and some further possibilites of using the data.
+The rMyCoPortal R package is an interface to the content stored on the MyCoPoral website. It allows to download records from the database readily in R for further analysis. It further provides some basic plotting functions. Below I will show the basic usability and some further possibilities of using the data.
 
 # Install rMyCoPortal
 ```{r setup, include=TRUE, eval=FALSE}
@@ -39,7 +39,7 @@ Docker needs to run before using the rMyCoPortal.
 # Download records for *Amanita muscaria*, the fly agaric
 
 
-```{r example1, include=TRUE, eval=TRUE, echo=TRUE}
+```{r example1, include=TRUE, eval=FALSE, echo=TRUE}
 ## Load library
 library("rMyCoPortal")
 
@@ -54,7 +54,7 @@ head(am.rec@records)
 ## Visualization
 We can now use several plotting methods to visualize the data.
 
-```{r plots, include=TRUE, eval=TRUE, echo=TRUE}
+```{r plots, include=TRUE, eval=FALSE, echo=TRUE}
 
 x <- am.rec
 

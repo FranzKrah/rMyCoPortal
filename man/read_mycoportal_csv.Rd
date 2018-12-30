@@ -10,7 +10,7 @@ read_mycoportal_csv(dir)
 \item{dir}{character string, specifying the path to the local CSV file after manual download}
 }
 \value{
-x an object of class "\code{mycodist}" with the following components:
+x an object of class "\code{records}" with the following components:
 \item{nr.records}{A numeric giving the number of records retrieved}
 \item{citation}{A character string with the recommended citation from the website}
 \item{query}{A list of the user arguments used}

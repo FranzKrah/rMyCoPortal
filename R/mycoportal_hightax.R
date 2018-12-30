@@ -1,14 +1,11 @@
 #' Retrieve higher taxon records from the MyCoPortal
 #' @param taxon character string specifying the taxon name (here usually higher taxon, e.g., order level)
 #' @param port default is 4445L
-#' @param remoteServerAddr default is "localhost
+#' @param remoteServerAddr default is "localhost"
 #' @param verbose logical
-#' @param wait set time to wait till page is loaded, default: 2 (don't go lower than that)
 #' @param screenshot logical, whether screenshot of results should be displayed in Viewer
 #' @param browserName character string specifying the browser to use, recommended: "chrome"
-#' @param wait numberic specifying the seconds to wait for website to load, recommended 2 for good internet connections;
-#' higher otherwise. It would be good to first look up the number of pages for a species and to compare it with the function output to see whether loading times are sufficient.
-#'
+#' @param wait numeric specifying the seconds to wait for website to load, recommended 2 for good internet connections, higher otherwise.
 #' @return x an object of class "\code{records}" with the following components:
 #' \item{nr.records}{A numeric giving the number of records retrieved}
 #' \item{citation}{A character string with the recommended citation from the website}
@@ -21,6 +18,7 @@
 #'
 #' @import RSelenium
 #' @importFrom crayon red
+#' @importFrom utils capture.output
 #'
 #' @author Franz-Sebastian Krah
 #'
@@ -29,7 +27,7 @@
 #' ## Query Amanitacae and plot on world map or USA map
 #' poly.dist <- mycoportal_hightax(taxon = "polyporales", taxon_type = 2)
 #' recordsmap(poly.dist, mapdatabase = "world", legend = FALSE)
-#' recordsmap(poly.dist, mapdatabase = "state",legend = FALSE)
+#' recordsmap(poly.dist, mapdatabase = "state", legend = FALSE)
 #' }
 #' @export
 #'
@@ -43,7 +41,7 @@ mycoportal_hightax <- function(taxon = "Polyporales",
                         wait = 2){
 
 
-  ## test
+  # TESTS -----------------------------------------------------
   if(!url.exists("r-project.org") == TRUE)
     stop( "Not connected to the internet. Please create a stable connection and try again." )
   if(!is.character(getURL("http://mycoportal.org/portal/index.php")))
@@ -52,17 +50,26 @@ mycoportal_hightax <- function(taxon = "Polyporales",
   if(missing(taxon))
     stop("At least a species name has to be specified")
 
+  ## Test if Docker is running
+  out <- exec_internal("docker", args = c("ps", "-q"), error = FALSE)
+  if(out$status != 0)
+    stop("Docker not available. Please start Docker! https://www.docker.com")
+
+  ## Wait should not be smaller than 2 seconds
   wait <- ifelse(wait<=2, 2, wait)
 
-  ## Allocate port
-  start_docker(verbose = verbose, sleep = wait)
+  # Initialize session -----------------------------------------------------
+  if(verbose){
+    cat("Initialize server\n")
+  }
+  start_docker_try(verbose = ifelse(verbose >= 1, TRUE, FALSE), max_attempts = 5, wait = wait)
 
   ## Set up remote
   dr <- RSelenium::remoteDriver(remoteServerAddr = "localhost", port = port, browserName = browserName)
   Sys.sleep(wait)
 
   ## Open connection; run server
-  out <- capture.output(dr$open(silent = FALSE))
+  out <- utils::capture.output(dr$open(silent = FALSE))
   Sys.sleep(wait)
   if(verbose > 1)
     cat(out)
@@ -72,6 +79,7 @@ mycoportal_hightax <- function(taxon = "Polyporales",
   if(!dr$getStatus()$ready)
     stop("Remote server is not running \n Please check if Docker is installed!")
 
+  # Open Website -----------------------------------------------------------
   makeURL <- function(taxon, i){
     paste0("http://mycoportal.org/portal/collections/listtabledisplay.php?",
           "taxa=", taxon,

@@ -4,7 +4,7 @@ author: "Franz-Sebastian Krah"
 # date: "`.r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Example application}
+  %\VignetteIndexEntry{rMyCoPortal - Example application}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -47,7 +47,7 @@ am.rec
 ```
 
 
-## Plot species distribition
+## Plot species distribution
 #######################################################
 ```{r plot1, include=TRUE, eval=FALSE, echo=TRUE}
 # plot_distmap(x = x, mapdatabase = "world") # interactive version
@@ -62,7 +62,7 @@ p.heat <- plot_datamap(x = am.rec, mapdatabase = "state")
 ```
 
 
-## Climate suitability modelling
+## Climate suitability modeling
 #######################################################
 
 ```{r clim, include=TRUE, eval=FALSE, echo=TRUE}
@@ -167,7 +167,7 @@ myBiomodProj <- BIOMOD_Projection(
 plot(myBiomodProj)
 ```
 
-## Projection on future environemental conditions
+## Projection on future environmental conditions
 ```{r future, include=TRUE, eval=FALSE, echo=TRUE}
 cc85 <- raster::getData('CMIP5', var='bio', res=2.5, rcp=85, model='CC', year=70)
 cc85 <- crop(cc85, extent(area$min_long, area$max_long, area$min_lat, area$max_lat))

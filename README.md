@@ -27,9 +27,9 @@ Before you start using rMyCoPortal, you need to install docker (https://docs.doc
 Docker needs to run before using the rMyCoPortal.
 
 ## How to use rMyCoPortal
-[Vignette 1: Introduction](https://github.com/FranzKrah/rMyCoPortal/blob/master/vignettes/introduction.html)
+[Vignette 1: Introduction](http://htmlpreview.github.io/?https://github.com/FranzKrah/rMyCoPortal/blob/master/vignettes/application_sdm.html)
 
-[Vignette 2: Example for Species Distribution modeling](https://github.com/FranzKrah/rMyCoPortal/blob/master/vignettes/application_sdm.html)
+[Vignette 2: Example for Species Distribution modeling](http://htmlpreview.github.io/?https://github.com/FranzKrah/rMyCoPortal/blob/master/vignettes/introduction.html)
 
 ## Meta
 
